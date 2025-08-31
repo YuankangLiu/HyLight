@@ -15,9 +15,9 @@ class HILevelPopulations:
     See Osterbrock & Ferland 2006, section 4.2
     '''
     def __init__(self, nmax=60, recom=True, coll=True,
-                 TabulatedEinsteinAs = '/Users/yuankangliu/Documents/Research/backup_Jun2024/Cloudy/EinsteinA.dat',
-                 TabulatedRecombinationRates = '/Users/yuankangliu/Documents/Research/backup_Jun2024/Cloudy/h_iso_recomb.dat',
-                 TabulatedCollisionalExRates = '/Users/yuankangliu/Documents/Research/backup_Jun2024/Cloudy/h_coll_all.dat',
+                 TabulatedEinsteinAs = '../data/Einstein_As_150.txt',
+                 TabulatedRecombinationRates = '../data/h_iso_recomb_HI_150.dat',
+                 TabulatedCollisionalExRates = '../data/h_coll_all.dat',
                  caseB = True, verbose=False):
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
@@ -42,6 +42,13 @@ class HILevelPopulations:
         R_H = 1 / (1 + unyt.electron_mass / unyt.proton_mass) * unyt.R_inf
         self.Eion = (unyt.planck_constant * unyt.c * R_H).in_units('eV')
         self.min_val = 1e-64
+
+        self.cache_path = "../cache/"
+        if not os.path.exists(self.cache_path):
+            os.makedirs(self.cache_path)
+            print(f"Folder '{self.cache_path}' created.")
+        else:
+            print(f"Folder '{self.cache_path}' already exists.")
         
         # Read Einstein coefficients
         self.TabulatedEinsteinAs = TabulatedEinsteinAs  # name of the file
@@ -514,7 +521,7 @@ class HILevelPopulations:
             else:
                 pname   = 'CascadeC_' + str(self.nmax) + '_' + 'A.pickle'
             try:
-                with open(os.path.join('/cosma/home/dp004/dc-liu3/data7/sims/cloudy/HII_region/pickle_data', pname), 'rb') as file:
+                with open(os.path.join(self.cache_path, pname), 'rb') as file:
                     data = pickle.load(file)
 
                 # check if nmax is correct
@@ -656,7 +663,7 @@ class HILevelPopulations:
         # save as a pickle file
         if topickle:
             data = {'nmax':self.nmax, 'C':C, 'P':P}
-            with open(os.path.join('/cosma/home/dp004/dc-liu3/data7/sims/cloudy/HII_region/pickle_data', pname), 'wb') as file:
+            with open(os.path.join(self.cache_path, pname), 'wb') as file:
                 pickle.dump(data, file, pickle.HIGHEST_PROTOCOL)
             if self.verbose:
                 print("Cascade matric elements pickled to file ", pname)
@@ -674,9 +681,9 @@ class HILevelPopulations:
         verbose = False  # set True to get timing info
         
         # check if Einstein A pickle file exists, read it if it exits
-        pname   = 'EinsteinA.pickle'
+        pname   = 'Einstein_As.pickle'
         try:
-            with open(pname, 'rb') as file:
+            with open(os.path.join(self.cache_path, pname), 'rb') as file:
                 data = pickle.load(file)
 
             # check if nmax is correct
@@ -763,7 +770,7 @@ class HILevelPopulations:
         # Save the file first, before imposing Case B, otherwise the As are saved with wrong case
         # Original A values are saved, then check if in Case B limit.
         data = {'nmax':self.nmax, 'A':A}
-        with open(pname, 'wb') as file:
+        with open(os.path.join(self.cache_path, pname), 'wb') as file:
             pickle.dump(data, file, pickle.HIGHEST_PROTOCOL)
         if self.verbose:
             print(" ... Einstein dictionary pickled to file {}".format(pname))
