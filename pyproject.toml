@@ -7,7 +7,7 @@ name = "hylight"
 version = "0.0.1"
 authors = [
   { name="Yuankang Liu", email="yuankang.liu@gmail.com" },
-  { name="Tom Theuns", email='tom.theuns@gmail.com'}
+  { name="Tom Theuns", email="tom.theuns@gmail.com" }
 ]
 description = "Atomic model for hydrogen recombination lines."
 readme = "README.md"
@@ -18,6 +18,7 @@ classifiers = [
 ]
 license = "MIT"
 license-files = ["LICENSE"]
+readme = "README.md"
 
 [project.urls]
 Homepage = "https://github.com/YuankangLiu/HyLight"
