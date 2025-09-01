@@ -7,6 +7,7 @@ import pickle
 import scipy.interpolate as interpolate
 import unyt
 import os
+import importlib
 import scipy.special as sc
 
 class HILevelPopulations:
@@ -15,9 +16,7 @@ class HILevelPopulations:
     See Osterbrock & Ferland 2006, section 4.2
     '''
     def __init__(self, nmax=60, recom=True, coll=True,
-                 TabulatedEinsteinAs = './data/Einstein_As_150.txt',
-                 TabulatedRecombinationRates = './data/h_iso_recomb_HI_150.dat',
-                 TabulatedCollisionalExRates = './data/h_coll_all.dat',
+                 cache_path = './cache/',
                  caseB = True, verbose=False):
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
@@ -43,7 +42,7 @@ class HILevelPopulations:
         self.Eion = (unyt.planck_constant * unyt.c * R_H).in_units('eV')
         self.min_val = 1e-64
 
-        self.cache_path = "./cache/"
+        self.cache_path = cache_path
         if not os.path.exists(self.cache_path):
             os.makedirs(self.cache_path)
             print(f"Folder '{self.cache_path}' created.")
@@ -51,12 +50,12 @@ class HILevelPopulations:
             print(f"Folder '{self.cache_path}' already exists.")
         
         # Read Einstein coefficients
-        self.TabulatedEinsteinAs = TabulatedEinsteinAs  # name of the file
-        self.A                   = self.ReadTabulatedEinsteinCoefficients(TabulatedEinsteinAs)
+        self.TabulatedEinsteinAs = importlib.resources.files('hylightpy.data').joinpath('Einstein_As_150.txt')  # name of the file
+        self.A                   = self.ReadTabulatedEinsteinCoefficients(self.TabulatedEinsteinAs)
 
     
         # Read level-resolved recombination rates
-        self.TabulatedRecombinationRates = TabulatedRecombinationRates                   # name of the file
+        self.TabulatedRecombinationRates = importlib.resources.files('hylightpy.data').joinpath('h_iso_recomb_HI_150.dat')   # name of the file
         self.Recom_table = self.ReadRecombinationRates(self.TabulatedRecombinationRates) # tabulated rates
         self.Alpha_nl = self.FitRecombinationRates()                                     # fitting function to tabulated rates
         if verbose:
@@ -140,8 +139,7 @@ class HILevelPopulations:
         '''
         Read level-resolved collisional excitation rates from ascii file fname, and return them
         '''
-        fpath = '/cosma/home/dp004/dc-liu3/analysis/Cloudy'
-        fname = 'h_coll_str.dat'
+        fpath = importlib.resources.files('hylightpy.data').joinpath('h_coll_str.dat')
 
         # columns in Anderson et al. 2000, 2002
         column_type = {'nu': int, 'lu': int, 'nl': int, 'll': int, 
@@ -157,7 +155,7 @@ class HILevelPopulations:
 
         # for levels <= 5, read the tabulated values in Anderson et al. 2000
         try:
-            coll_csv = pandas.read_csv(os.path.join(fpath, fname), skiprows=13, delimiter='\t',
+            coll_csv = pandas.read_csv(fpath, skiprows=13, delimiter='\t',
                                        names=['nu', 'lu', 'nl', 'll', '0.5eV', '1.0eV', '3.0eV', '5.0eV', '10.0eV', '15.0eV', '20.0eV', '25.0eV'],
                                        converters = column_type)
             
