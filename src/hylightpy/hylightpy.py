@@ -15,9 +15,9 @@ class HILevelPopulations:
     See Osterbrock & Ferland 2006, section 4.2
     '''
     def __init__(self, nmax=60, recom=True, coll=True,
-                 TabulatedEinsteinAs = '../data/Einstein_As_150.txt',
-                 TabulatedRecombinationRates = '../data/h_iso_recomb_HI_150.dat',
-                 TabulatedCollisionalExRates = '../data/h_coll_all.dat',
+                 TabulatedEinsteinAs = './data/Einstein_As_150.txt',
+                 TabulatedRecombinationRates = './data/h_iso_recomb_HI_150.dat',
+                 TabulatedCollisionalExRates = './data/h_coll_all.dat',
                  caseB = True, verbose=False):
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
@@ -43,7 +43,7 @@ class HILevelPopulations:
         self.Eion = (unyt.planck_constant * unyt.c * R_H).in_units('eV')
         self.min_val = 1e-64
 
-        self.cache_path = "../cache/"
+        self.cache_path = "./cache/"
         if not os.path.exists(self.cache_path):
             os.makedirs(self.cache_path)
             print(f"Folder '{self.cache_path}' created.")
