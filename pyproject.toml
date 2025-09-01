@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hylightpy"
-version = "0.0.1"
+version = "0.0.7"
 authors = [
   { name="Yuankang Liu", email="yuankang.liu@gmail.com" },
   { name="Tom Theuns", email="tom.theuns@gmail.com" }
@@ -33,4 +33,11 @@ Homepage = "https://github.com/YuankangLiu/HyLight"
 Issues = "https://github.com/YuankangLiu/HyLight/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/"]
+packages = ["src/hylightpy"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/hylightpy",
+  "README.md",
+  "LICENSE"
+]
