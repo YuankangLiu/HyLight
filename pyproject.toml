@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hylightpy"
-version = "0.0.8"
+version = "0.0.9"
 authors = [
   { name="Yuankang Liu", email="yuankang.liu@gmail.com" },
   { name="Tom Theuns", email="tom.theuns@gmail.com" }
@@ -16,8 +16,7 @@ dependencies = [
     "numpy>=2.0.0",
     "pandas>=2.2.0",
     "scipy>=1.14.0",
-    "unyt>=3.3.0",
-    
+    "unyt>=3.0.0",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
