@@ -18,6 +18,15 @@ class HILevelPopulations:
     def __init__(self, nmax=60, recom=True, coll=True,
                  cache_path = './cache/',
                  caseB = True, verbose=False):
+        """Initialize the hydrogen  model. 
+        
+        :param nmax: Number of levels included in the modeln. Default is ``40``.
+        :param recom: Whether to include radiative recombination. Default is ``True``.
+        :param coll: Whether to include collisional excitation from the ground state. Default is ``True``.
+        :param cache_path: Path to store the cache files. Default is the current working directory ``'./cache/'``.
+        :param caseB: Whether to execute in Case B. Default is ``True``.
+        :param verbose: Whether to include diagnostic information. Default is ``False``.
+        """
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░ ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
@@ -26,7 +35,7 @@ class HILevelPopulations:
         print(" ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
         print(" ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     ", flush=True)
         
-        # set maximum number of principle quantum number to be used - max allowed is 40
+        # set maximum number of principle quantum number to be used - max allowed is 150
         self.nmax = nmax
         assert self.nmax >= 5, "At least five levels are required. "
         self.nmaxcoll = nmax
@@ -49,7 +58,7 @@ class HILevelPopulations:
         else:
             print(f"Folder '{self.cache_path}' already exists.")
         
-        # Read Einstein coefficients
+        # Read Einstein A coefficients
         self.TabulatedEinsteinAs = importlib.resources.files('hylightpy.data').joinpath('Einstein_As_150.txt')  # name of the file
         self.A                   = self.ReadTabulatedEinsteinCoefficients(self.TabulatedEinsteinAs)
 
@@ -77,6 +86,10 @@ class HILevelPopulations:
  
 
     def GetAllConfigs(self):
+        """Get all the configurations of all the atomic states (n, l).
+        
+        :return: All the configurations of the atomic states. 
+        """
         configs = []
         for nu in np.arange(1, self.nmax+1): # list of indices, 
             for lu in np.arange(nu):
@@ -88,23 +101,37 @@ class HILevelPopulations:
     #                Recombination rate method                       #
     ##################################################################  
     def AlphaA(self, LogT=4.0):
-        ''' Fit to case-A recombination coefficient at log temperature LogT'''
+        """Fit to Case A recombination coefficient at log temperature.
+        
+        :param LogT: Log10 of temperature. Default is ``4.0``.
+        :type LogT: float
+        :return: Fitted recombination rate coefficient. 
+        :rtype: float
+        """
         T      = 10.**LogT
         lamb   = 315614 / T
         alphaA = 1.269e-13 * lamb**(1.503)*(1.0+(lamb/0.522)**(0.470))**(-1.923)
         return alphaA
 
     def AlphaB(self, LogT=4.0):
-        ''' Fit to case-B recombination coefficient at log temperature T'''        
+        """
+        Fit to Case B recombination coefficient at log temperature.
+ 
+        :param LogT: Log10 of temperature. Default is ``4.0``.                                                                                                       :type LogT: float                
+        :returns: Fitted recombination rate coefficient.
+        """
         T      = 10.**LogT
         lamb   = 315614 / T
         alphaB = 2.753e-14 * lamb**(1.5)*(1.0+(lamb/2.740)**(0.470))**(-2.2324)
         return alphaB
         
     def ReadRecombinationRates(self, fname):
-        '''
-        Read level-resolved recombination rates from ascii file fname, and return them
-        '''
+        """
+        Read level-resolved recombination rates from ascii file in the data folder (h_iso_recomb_HI_150.dat).
+        
+        :param fname: Name of the tabulated recombination coefficient file. 
+        :returns: Dictionary of the recombination coefficients. 
+        """
         
         # contents of the cloudy data file containing l-resolved recombination rates
         # the first line is a comment
@@ -136,9 +163,12 @@ class HILevelPopulations:
         return {'LogTs':LogTs, 'recom_data':recom_data}
     
     def ReadEffectiveCollisonalStrength(self, verbose=False):
-        '''
-        Read level-resolved collisional excitation rates from ascii file fname, and return them
-        '''
+        """
+        Read level-resolved collisional strength up to n = 5 level from ascii file in the data folder (h_coll_str.dat). 
+        
+        :param verbose: Output diagnostic information. 
+        :returns: Description of return value.
+        """
         fpath = importlib.resources.files('hylightpy.data').joinpath('h_coll_str.dat')
 
         # columns in Anderson et al. 2000, 2002
@@ -169,13 +199,14 @@ class HILevelPopulations:
         
 
     def FitRecombinationRates(self):
-        ''' 
-        Provide fitting function for recombination rate as a function of Log T
-        
-        The fitting funcition is of the form 
-        
+        """
+        Provide fitting function for recombination rate as a function of log10 T.
+        The fitting funcition is of the form:
         Recombination_rate(n, l, T) = 10**Alpha_nk(10**LogT)
-        '''
+        
+        :returns: Fitting function. 
+        """
+        
         def get_l_level_index(n=1, l=0):
             assert type(n) == np.int64 and type(l) == np.int64, 'n and l must be intergers.'
             assert n >= 1, 'Principle quantum number can not be smaller than 1.'
@@ -203,6 +234,14 @@ class HILevelPopulations:
         return Alpha_nl
 
     def collisional_excitation_rate_Lebedev_Beigman(self, nu=6, nl=1, Te=1e4):
+        """
+        Collisional de-excitation rate calculated based on Lebedev & Beigman 1998 for Rydberg atoms (n >= 5). 
+        
+        :param nu: Upper level. Default is ``6``.
+        :param nl: Lower level. Default is ``1``.
+        :param Te: Temperature. Default is ``10000.0``.
+        :returns: Collisional de-excitation rate cefficient q_ul.
+        """
         Te = Te * unyt.K
         gnu = 2 * nu**2
         gnl = 2 * nl**2
@@ -212,6 +251,14 @@ class HILevelPopulations:
         return qul
 
     def collisional_deexcitation_rate_Lebedev_Beigman(self, nu=6, nl=1, Te=1e4):
+        """
+        Collisional excitation rate calculated based on Lebedev & Beigman 1998 for Rydberg atoms (n >= 5).
+
+        :param nu: Upper level. Default is ``6``.
+        :param nl: Lower level. Default is ``1``.
+        :param Te: Temperature. Default is ``10000.0``.
+        :returns: Collisional excitation rate cefficient q_lu.
+        """
         Te = Te * unyt.K
         gnu = 2 * nu**2 # 2n**2
         gnl = 2 * nl**2
@@ -253,13 +300,13 @@ class HILevelPopulations:
         return fval
         
     def FitCollisionalExRates(self):
-        ''' 
-        Provide fitting function for collisional excitation rate of the ground state. 
+        """
+        Provide fitting function for collisional excitation rate from the ground state.
+        The fitting funcition is of the form:
+        Collisional_rate(n, l, T) = 10**q_lu(10**LogT)
         
-        The fitting funcition is of the form 
-        
-        Recombination_rate(n, l, T) = 10**Alpha_nk(10**LogT)
-        '''
+        :returns: Fitting function of the collisioanl excitation rate coefficient.
+        """
         
         def FitCollExRate(ups_data, Ts, n=1, l=0):
 
@@ -319,62 +366,20 @@ class HILevelPopulations:
     ##################################################################    
     #                Cascade matrix methods                          #
     ##################################################################
-    def TestAllLevelPops(self, nH = 1.0, ne = 1.0, LogT = 4.0, N={}):
-        '''
-        Verify whether these pop levels satisfy the equilibrium relation - Eq. 4.1
-        '''
-        #
-        nmax     = self.nmax
-        Config   = self.Config
-        Alpha_nl = self.Alpha_nl
-        A        = self.A
-        #
-        TestConfig = []
-        TestDiff   = []
-        for n in np.arange(1, nmax+1):
-            for l in np.arange(n):
-                lhs    = 0.0
-                conf   = Config(n=n, l=l)
-                lhs   += nH * ne * 10**Alpha_nl[conf](LogT)
-                #
-                for nu in np.arange(n+1, nmax+1):
-                    for lu in [l-1, l+1]:
-                        if (lu>= 0) & (lu < nu):
-                            conf_i = Config(n=nu, l=lu)
-                            lhs += N[conf_i] * A[conf_i][conf]
-                #
-                rhs = 0.0
-                for nd in np.arange(1, n):
-                    for ld in [l-1, l+1]:
-                        if (ld >= 0) & (ld < nd):
-                            conf_k = Config(n=nd, l=ld)
-                            rhs    += A[conf][conf_k]
-                    if (nd == 1) & (n==2) & (l == 0):
-                        ld      = 0
-                        conf_k  = Config(n=nd, l=ld)
-                        rhs    += A[conf][conf_k]
-                #
-                Nnl  = 0.0
-                diff = 1e2
-                if rhs > 0:
-                    Nnl  = lhs / rhs
-                    diff = (Nnl-N[conf])/N[conf] * 100.
-#                     if n < 10:
-#                         print("Conf = {0:s}, % diff = {1:1.4f}, N = {2:1.3e}".format(conf, diff, (N[conf])))
-                TestConfig.append(conf)
-                TestDiff.append(diff)
-        return {'Conf':TestConfig, 'Diff':TestDiff}
 
     def ComputeLevelPop(self, nHII = 1.0, ne = 1.0, nHI=1.0, LogT=4.0, n=2, l=0, verbose=False):
-        '''
-        Compute level population for a given level  - implementents Eq. 4.10
-        Input: 
-           nH   = proton number density nH [cm^[-3]]
-           ne   = electron number density [[cm^-3]]
-           logT = logarithm of temperature
-           n    = principle quantum number of desired level
-           l    = angular momentum state of this level
-        '''
+        """
+        Compute level population for a given level at a given density and temperature.
+        
+        :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :param nHI: Neutral hydrogen density [cm^{03}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :param LogT: Temperature in log10. Default is ``4.0``.
+        :param n: Principle quantum number of the desired level. Default is ``2``.
+        :param l: Angular momentum quantum number of the desired level. Default is ``0``.
+        :param verbose: Output diagnostic information. Default is ``False``.
+        :returns: Level population density of the desired level in units of cm^{-3}.
+        """
 
         #
         # check if all the quantities have the same dimension
@@ -442,14 +447,15 @@ class HILevelPopulations:
         return N
 
     def ComputeAllLevelPops(self, nHII = 1.0, ne = 1.0, nHI = 1.0, LogT=4.0):
-        '''
-        Compute level population for all levels  - implementents Eq. 4.10
-        Input: 
-           nHII(nH in the previous version) = proton number density nH [cm^[-3]]
-           nHI  = neutral hydrogen number density [cm^{-3}]
-           ne   = electron number density [[cm^-3]]
-           logT = logarithm of temperature
-        '''
+        """
+        Compute level population for all levels.
+        
+        :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :param nHI: Neutral hydrogen number density [cm^{-3}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :param LogT: Temperature in log10. Default is ``4.0``.
+        :returns: Level population for all levels in units of cm^{-3}. 
+        """
         
         #
         nmax     = self.nmax
@@ -501,10 +507,12 @@ class HILevelPopulations:
         return N
         
     def ComputeCascadeMatrix(self):
-        '''
-           Compute cascade matrix from Einstein coefficients
-        '''
-        import time
+        """
+        Compute cascade matrix from Einstein coefficients
+        
+        :returns: Cascade matrix. 
+        """
+        
         nmax     = self.nmax          # max upper level
         A        = self.A             # Einstein coefficient
         verbose  = self.verbose
@@ -513,7 +521,7 @@ class HILevelPopulations:
         
         # if pickle file exists, read it
         if topickle:
-            import pickle
+        
             if self.caseB:
                 pname   = 'CascadeC_' + str(self.nmax) + '_' + 'B.pickle'
             else:
@@ -671,10 +679,12 @@ class HILevelPopulations:
 
                     
     def ReadTabulatedEinsteinCoefficients(self, fname):
-        '''
-          Read tabulated Einstein coefficients
-          Use these to compute the casecade
-        '''
+        """
+        Read tabulated Einstein coefficients.
+        
+        :param fname: Filename.
+        :returns: Dictionary of Einstein A values. 
+        """
         
         verbose = False  # set True to get timing info
         
@@ -786,20 +796,35 @@ class HILevelPopulations:
 
         
     def Config(self, n=1, l=1):
-        '''
-              configuration states are tuples of the form (n,l), where:
-          n = principle quantum number, n=1->nmax
-          l = angular momentum number, l=0->n-1
-        '''
+        """
+        Configuration states are tuples of the form (n,l), where        
+        n = principle quantum number
+        l = angular momentum quantum number
+        
+        :param n: Principle quantum number. Default is ``1``.
+        :param l: Angular momentum quantum number. Default is ``1``.
+        :returns: Configuration of a specific state in tuple. 
+        """
         return (n,l)
         
-    def DeConfig(self, config='1s'):
-        '''
-            extract n and l value for a given configuration state
-        '''
+    def DeConfig(self, config=(1,0)):
+        """
+        Extract n and l value for a given configuration.
+        
+        :param config: Configuration of a state. 
+        :returns: Principle quantum number and angular momentum quantum number. 
+        """
         return config[0], config[1]
 
     def alpha_effective(self, n=2, l=0, LogT=4.0):
+        """
+        Effective recombination rate coefficient to a speciic level nl. 
+        
+        :param n: Principle quantum number. Default is ``2``.
+        :param l: Angular momentum quantum number. Default is ``0``.
+        :param LogT: Temperature in log10. Default is ``4.0``.
+        :returns: Effective recombination coefficient. 
+        """
         alpha_nl = 0 # based on Eq. 30 in Pengelly 1964 
         conf_k = self.Config(n=n, l=l) # loop over all l-states within this upper level
         # alpha * recom coeff
@@ -854,8 +879,6 @@ class HILevelPopulations:
                     rhs    += self.A[conf_i][conf_k]
             
             lterms[lup] = lhs_rr / rhs
-            
-        print('lterms', lterms)
 
         alpha_eff = 0
         for i, level_config in enumerate(As.keys()):
@@ -863,4 +886,4 @@ class HILevelPopulations:
             print('alpha_eff', alpha_eff, level_config)
             print('alpha_a', alpha_tot)
         R = alpha_eff / alpha_tot
-        return alpha_eff, R
+        return R
