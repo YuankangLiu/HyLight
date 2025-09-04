@@ -18,7 +18,7 @@ print(">>> sys.path[0]:", sys.path[0])
 project = 'HyLight'
 copyright = '2025, Yuankang Liu, Tom Theuns'
 author = 'Yuankang Liu, Tom Theuns'
-release = '0.0.9'
+release = '0.0.11'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
