@@ -10,7 +10,7 @@ import os
 import importlib
 import scipy.special as sc
 
-class HILevelPopulations:
+class HIAtom:
     '''
     Compute level population for HI using the cascade matrix formalism.
     See Osterbrock & Ferland 2006, section 4.2
@@ -60,32 +60,32 @@ class HILevelPopulations:
         
         # Read Einstein A coefficients
         self.TabulatedEinsteinAs = importlib.resources.files('hylightpy.data').joinpath('Einstein_As_150.txt')  # name of the file
-        self.A                   = self.ReadTabulatedEinsteinCoefficients(self.TabulatedEinsteinAs)
+        self.A                   = self.read_tabulated_Einstein_coefficients(self.TabulatedEinsteinAs)
 
     
         # Read level-resolved recombination rates
         self.TabulatedRecombinationRates = importlib.resources.files('hylightpy.data').joinpath('h_iso_recomb_HI_150.dat')   # name of the file
-        self.Recom_table = self.ReadRecombinationRates(self.TabulatedRecombinationRates) # tabulated rates
-        self.Alpha_nl = self.FitRecombinationRates()                                     # fitting function to tabulated rates
+        self.Recom_table = self.read_recombination_rates(self.TabulatedRecombinationRates) # tabulated rates
+        self.Alpha_nl = self.fit_recombination_rates()                                     # fitting function to tabulated rates
         if verbose:
             print("Recombination rates read and fitted")
             
         # Read level-resolved collsional exicitation rates
         #self.TabulatedCollisonalExRates = TabulatedCollisionalExRates
         #self.CollEx_table = self.ReadCollisionalExRates(self.TabulatedCollisonalExRates)
-        self.q_nl = self.FitCollisionalExRates()
+        self.q_nl = self.fit_collisional_ex_rates()
         if verbose:
             print("Collsional Excitaion Rates read and fitted")
 
         # Compute cascade matrix
-        self.C    = self.ComputeCascadeMatrix()
+        self.C    = self.compute_cascade_matrix()
         if verbose:
             print("Cascade matrix class initialized ")
 
-        self.allconfigs = self.GetAllConfigs()
+        self.allconfigs = self.get_all_configs()
  
 
-    def GetAllConfigs(self):
+    def get_all_configs(self):
         """Get all the configurations of all the atomic states (n, l).
         
         :return: All the configurations of the atomic states. 
@@ -93,14 +93,14 @@ class HILevelPopulations:
         configs = []
         for nu in np.arange(1, self.nmax+1): # list of indices, 
             for lu in np.arange(nu):
-                conf_i = self.Config(n=nu, l=lu)
+                conf_i = self.config(n=nu, l=lu)
                 configs.append(conf_i)
         return configs
         
     ##################################################################    
     #                Recombination rate method                       #
     ##################################################################  
-    def AlphaA(self, LogT=4.0):
+    def alpha_A(self, LogT=4.0):
         """Fit to Case A recombination coefficient at log temperature.
         
         :param LogT: Log10 of temperature. Default is ``4.0``.
@@ -113,24 +113,28 @@ class HILevelPopulations:
         alphaA = 1.269e-13 * lamb**(1.503)*(1.0+(lamb/0.522)**(0.470))**(-1.923)
         return alphaA
 
-    def AlphaB(self, LogT=4.0):
+    def alpha_B(self, LogT=4.0):
         """
         Fit to Case B recombination coefficient at log temperature.
  
-        :param LogT: Log10 of temperature. Default is ``4.0``.                                                                                                       :type LogT: float                
-        :returns: Fitted recombination rate coefficient.
+        :param LogT: Log10 of temperature. Default is ``4.0``.
+        :type LogT: float
+        :return: Fitted recombination rate coefficient.
+        :rtype: float
         """
         T      = 10.**LogT
         lamb   = 315614 / T
         alphaB = 2.753e-14 * lamb**(1.5)*(1.0+(lamb/2.740)**(0.470))**(-2.2324)
         return alphaB
         
-    def ReadRecombinationRates(self, fname):
+    def read_recombination_rates(self, fname):
         """
         Read level-resolved recombination rates from ascii file in the data folder (h_iso_recomb_HI_150.dat).
         
         :param fname: Name of the tabulated recombination coefficient file. 
-        :returns: Dictionary of the recombination coefficients. 
+        :type fname: str
+        :returns: Dictionary of the recombination coefficients.
+        :rtype: dict
         """
         
         # contents of the cloudy data file containing l-resolved recombination rates
@@ -162,12 +166,14 @@ class HILevelPopulations:
         LogTs      = np.linspace(0, 10, 41, endpoint=True)
         return {'LogTs':LogTs, 'recom_data':recom_data}
     
-    def ReadEffectiveCollisonalStrength(self, verbose=False):
+    def read_effective_collisional_strength(self, verbose=False):
         """
         Read level-resolved collisional strength up to n = 5 level from ascii file in the data folder (h_coll_str.dat). 
         
-        :param verbose: Output diagnostic information. 
-        :returns: Description of return value.
+        :param verbose: Output diagnostic information.
+        :type verbose: boolean
+        :returns: Collisional stength up to n = 5 tabulated by Anderson et al. 2000. 
+        :rtype: dict
         """
         fpath = importlib.resources.files('hylightpy.data').joinpath('h_coll_str.dat')
 
@@ -198,7 +204,7 @@ class HILevelPopulations:
         return {'Ts':self.temps_Anderson, 'ups_data':coll_csv}
         
 
-    def FitRecombinationRates(self):
+    def fit_recombination_rates(self):
         """
         Provide fitting function for recombination rate as a function of log10 T.
         The fitting funcition is of the form:
@@ -216,12 +222,12 @@ class HILevelPopulations:
             # offset by 1, since first line is a comment line
             return int((n-1)*n/2) + l # + 1
             
-        def FitRate(recom_data, LogTs, n=1, l=0):
+        def fit_rate(recom_data, LogTs, n=1, l=0):
             index   = get_l_level_index(n=n, l=l)
             rate    = interpolate.interp1d(LogTs, recom_data.iloc[index, 2:43].values,fill_value="extrapolate", bounds_error=False)   
             return rate
 
-        rates      = self.ReadRecombinationRates(self.TabulatedRecombinationRates)
+        rates      = self.read_recombination_rates(self.TabulatedRecombinationRates)
         LogTs      = rates['LogTs']
         recom_data = rates['recom_data']
         
@@ -229,8 +235,8 @@ class HILevelPopulations:
         Alpha_nl = {}
         for n in np.arange(1, nmax+1):
             for l in np.arange(n):
-                conf_i             = self.Config(n=n, l=l)
-                Alpha_nl[conf_i]   = FitRate(recom_data, LogTs, n=n, l=l) # try 10**()
+                conf_i             = self.config(n=n, l=l)
+                Alpha_nl[conf_i]   = fit_rate(recom_data, LogTs, n=n, l=l) # try 10**()
         return Alpha_nl
 
     def collisional_excitation_rate_Lebedev_Beigman(self, nu=6, nl=1, Te=1e4):
@@ -238,9 +244,13 @@ class HILevelPopulations:
         Collisional de-excitation rate calculated based on Lebedev & Beigman 1998 for Rydberg atoms (n >= 5). 
         
         :param nu: Upper level. Default is ``6``.
+        :type nu: int
         :param nl: Lower level. Default is ``1``.
+        :type nl: int
         :param Te: Temperature. Default is ``10000.0``.
+        :type Te: float
         :returns: Collisional de-excitation rate cefficient q_ul.
+        :rtype: float
         """
         Te = Te * unyt.K
         gnu = 2 * nu**2
@@ -255,9 +265,13 @@ class HILevelPopulations:
         Collisional excitation rate calculated based on Lebedev & Beigman 1998 for Rydberg atoms (n >= 5).
 
         :param nu: Upper level. Default is ``6``.
+        :type nu: int
         :param nl: Lower level. Default is ``1``.
+        :type nl: int
         :param Te: Temperature. Default is ``10000.0``.
+        :type Te: float
         :returns: Collisional excitation rate cefficient q_lu.
+        :rtype: float
         """
         Te = Te * unyt.K
         gnu = 2 * nu**2 # 2n**2
@@ -299,7 +313,7 @@ class HILevelPopulations:
         fval = fval1 / fval2
         return fval
         
-    def FitCollisionalExRates(self):
+    def fit_collisional_ex_rates(self):
         """
         Provide fitting function for collisional excitation rate from the ground state.
         The fitting funcition is of the form:
@@ -308,7 +322,7 @@ class HILevelPopulations:
         :returns: Fitting function of the collisioanl excitation rate coefficient.
         """
         
-        def FitCollExRate(ups_data, Ts, n=1, l=0):
+        def fit_coll_ex_rate(ups_data, Ts, n=1, l=0):
 
             if n <= 5:
                 #index   = get_l_level_index(n=n, l=l)
@@ -346,17 +360,15 @@ class HILevelPopulations:
                     
             return qfit
 
-        
-        ups     = self.ReadEffectiveCollisonalStrength(verbose=True)
+        ups     = self.read_effective_collisional_strength(verbose=True)
         Ts      = ups['Ts']
         upsdata = ups['ups_data']
         nmax     = self.nmaxcoll
         q_nl = {}
         for n in np.arange(2, nmax+1): # mininum level is 2
             for l in np.arange(n):
-                conf_i             = self.Config(n=n, l=l)
-                
-                coeffs             = FitCollExRate(upsdata, Ts, n=n, l=l)
+                conf_i             = self.config(n=n, l=l)
+                coeffs             = fit_coll_ex_rate(upsdata, Ts, n=n, l=l)
                 q_nl[conf_i]       = np.poly1d(coeffs) # add 10**
                 
         return q_nl
@@ -367,18 +379,26 @@ class HILevelPopulations:
     #                Cascade matrix methods                          #
     ##################################################################
 
-    def ComputeLevelPop(self, nHII = 1.0, ne = 1.0, nHI=1.0, LogT=4.0, n=2, l=0, verbose=False):
+    def compute_level_pop(self, nHII = 1.0, ne = 1.0, nHI=1.0, LogT=4.0, n=2, l=0, verbose=False):
         """
         Compute level population for a given level at a given density and temperature.
         
         :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :type nHII: float
         :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :type ne: float
         :param nHI: Neutral hydrogen density [cm^{03}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :type nHI: float
         :param LogT: Temperature in log10. Default is ``4.0``.
+        :type LogT: float
         :param n: Principle quantum number of the desired level. Default is ``2``.
+        :type n: int
         :param l: Angular momentum quantum number of the desired level. Default is ``0``.
+        :type l: int
         :param verbose: Output diagnostic information. Default is ``False``.
+        :type verbose: boolean
         :returns: Level population density of the desired level in units of cm^{-3}.
+        :rtype: float
         """
 
         #
@@ -391,7 +411,7 @@ class HILevelPopulations:
         C        = self.C
         Alpha_nl = self.Alpha_nl
         q_nl     = self.q_nl
-        Config   = self.Config
+        Config   = self.config
 
         # test for consistency
         if (n < 1) or (n > self.nmax):
@@ -446,15 +466,20 @@ class HILevelPopulations:
             print("Computed level pop for level = {0:s}, log N = {1:2.4f}".format(conf_i, np.log10(N)))
         return N
 
-    def ComputeAllLevelPops(self, nHII = 1.0, ne = 1.0, nHI = 1.0, LogT=4.0):
+    def compute_all_level_pops(self, nHII = 1.0, ne = 1.0, nHI = 1.0, LogT=4.0):
         """
         Compute level population for all levels.
         
         :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :type nHII: float
         :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :type ne: float
         :param nHI: Neutral hydrogen number density [cm^{-3}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :type nHI: float
         :param LogT: Temperature in log10. Default is ``4.0``.
+        :type LogT: float
         :returns: Level population for all levels in units of cm^{-3}. 
+        :rtype: float
         """
         
         #
@@ -463,7 +488,7 @@ class HILevelPopulations:
         C        = self.C
         Alpha_nl = self.Alpha_nl
         q_nl     = self.q_nl
-        Config   = self.Config
+        Config   = self.config
         
 
         #
@@ -506,17 +531,18 @@ class HILevelPopulations:
                     N[conf_i] = lhs/rhs
         return N
         
-    def ComputeCascadeMatrix(self):
+    def compute_cascade_matrix(self):
         """
         Compute cascade matrix from Einstein coefficients
         
-        :returns: Cascade matrix. 
+        :returns: Cascade matrix.
+        :rtype: dict
         """
         
         nmax     = self.nmax          # max upper level
         A        = self.A             # Einstein coefficient
         verbose  = self.verbose
-        Config   = self.Config
+        Config   = self.config
         topickle = True
         
         # if pickle file exists, read it
@@ -678,12 +704,14 @@ class HILevelPopulations:
         return C
 
                     
-    def ReadTabulatedEinsteinCoefficients(self, fname):
+    def read_tabulated_Einstein_coefficients(self, fname):
         """
         Read tabulated Einstein coefficients.
         
         :param fname: Filename.
+        :type fname: str
         :returns: Dictionary of Einstein A values. 
+        :rtype: dict
         """
         
         verbose = False  # set True to get timing info
@@ -706,9 +734,9 @@ class HILevelPopulations:
                     if self.verbose:
                         print(" ... Imposing caseB (no Lyman-transitions) ")
                         
-                    conf_k = self.Config(n=1, l=0) # ground state
+                    conf_k = self.config(n=1, l=0) # ground state
                     for nu in np.arange(2, self.nmax+1):
-                        conf_i = self.Config(n=nu, l=1) # all p-state
+                        conf_i = self.config(n=nu, l=1) # all p-state
                         A[conf_i][conf_k] = 0.0
                 return A
             else:
@@ -737,12 +765,12 @@ class HILevelPopulations:
         # loop over upper level
         for nu in np.arange(2, nmax+1):
             for lu in np.arange(nu):
-                conf_i = self.Config(n=nu, l=lu)
+                conf_i = self.config(n=nu, l=lu)
                 A[conf_i] = {}
                 # loop over lower level
                 for nd in np.arange(nu):
                     for ld in np.arange(nd):
-                        conf_k = self.Config(n=nd, l=ld)
+                        conf_k = self.config(n=nd, l=ld)
                         A[conf_i][conf_k] = 0
         t0 = time.time() - t0
         if verbose:
@@ -756,8 +784,8 @@ class HILevelPopulations:
         lds      = data['ld'][:]
         Avals    = data['A'][:]
         for nup, lup, nd, ld, Aval in zip(nups, lups, nds, lds, Avals):
-            conf_i = self.Config(n=nup, l=lup)
-            conf_k = self.Config(n=nd, l=ld)
+            conf_i = self.config(n=nup, l=lup)
+            conf_k = self.config(n=nd, l=ld)
             if nup <= nmax:
                 A[conf_i][conf_k] = Aval
             else:
@@ -771,8 +799,8 @@ class HILevelPopulations:
         lu = 0
         nd = 1
         ld = 0
-        conf_i = self.Config(n=nu, l=lu)
-        conf_k = self.Config(n=nd, l=ld)
+        conf_i = self.config(n=nu, l=lu)
+        conf_k = self.config(n=nd, l=ld)
         A[conf_i][conf_k] = A_2s_1s
 
         # Save the file first, before imposing Case B, otherwise the As are saved with wrong case
@@ -787,32 +815,37 @@ class HILevelPopulations:
         if self.caseB:
             if self.verbose:
                 print(" ... Imposing caseB (no Lyman-transitions) ")
-            conf_k = self.Config(n=1, l=0) # ground state
+            conf_k = self.config(n=1, l=0) # ground state
             for nu in np.arange(2, nmax+1):
-                conf_i = self.Config(n=nu, l=1) # p-state
+                conf_i = self.config(n=nu, l=1) # p-state
                 A[conf_i][conf_k] = 0.0
         
         return A
 
         
-    def Config(self, n=1, l=1):
+    def config(self, n=1, l=1):
         """
         Configuration states are tuples of the form (n,l), where        
         n = principle quantum number
         l = angular momentum quantum number
         
         :param n: Principle quantum number. Default is ``1``.
+        :type n: int
         :param l: Angular momentum quantum number. Default is ``1``.
+        :type l: int
         :returns: Configuration of a specific state in tuple. 
+        :rtype: tuple
         """
         return (n,l)
         
-    def DeConfig(self, config=(1,0)):
+    def de_config(self, config=(1,0)):
         """
         Extract n and l value for a given configuration.
         
-        :param config: Configuration of a state. 
-        :returns: Principle quantum number and angular momentum quantum number. 
+        :param config: Configuration of a state.
+        :type config: tuple
+        :returns: Principle quantum number and angular momentum quantum number.
+        :rtype: int, int
         """
         return config[0], config[1]
 
@@ -821,34 +854,39 @@ class HILevelPopulations:
         Effective recombination rate coefficient to a speciic level nl. 
         
         :param n: Principle quantum number. Default is ``2``.
+        :type n: int
         :param l: Angular momentum quantum number. Default is ``0``.
+        :type l: int
         :param LogT: Temperature in log10. Default is ``4.0``.
+        :type LogT: float
         :returns: Effective recombination coefficient. 
+        :rtype: float
         """
+        assert n >= 2, "Onlt n >= 2 makes sense."
         alpha_nl = 0 # based on Eq. 30 in Pengelly 1964 
-        conf_k = self.Config(n=n, l=l) # loop over all l-states within this upper level
+        conf_k = self.config(n=n, l=l) # loop over all l-states within this upper level
         # alpha * recom coeff
         for n in np.arange(n, self.nmax+1):
             for l in np.arange(n):
-                conf_i = self.Config(n=n, l=l)
+                conf_i = self.config(n=n, l=l)
                 if self.recom:
                     alpha_nl += 10**self.Alpha_nl[conf_i](LogT) * self.C[conf_i][conf_k]
         return alpha_nl
 
     def branching_ratio(self, nupper=3, nlower=2, LogT=4.0, caseB=True):
         if caseB == True:
-            alpha_tot = self.AlphaB(LogT=LogT)
+            alpha_tot = self.alpha_B(LogT=LogT)
         else:
-            alpha_tot = self.AlphaA(LogT=LogT)
+            alpha_tot = self.alpha_A(LogT=LogT)
         
         lterms = np.zeros(nupper)
         
         As = {}
         for lup in np.arange(nupper):
-            conf_up  = self.Config(n=nupper, l=lup)
+            conf_up  = self.config(n=nupper, l=lup)
             Atemp    = 0.0
             for ldown in np.arange(nlower):
-                conf_down = self.Config(n=nlower, l=ldown)
+                conf_down = self.config(n=nlower, l=ldown)
                 try:
                     Atemp += self.A[conf_up][conf_down]
                 except:
@@ -857,25 +895,25 @@ class HILevelPopulations:
 
         for lup in np.arange(nupper):
             lhs_rr = 0
-            conf_k = self.Config(n=nupper, l=lup) # loop over all l-states within this upper level
+            conf_k = self.config(n=nupper, l=lup) # loop over all l-states within this upper level
             # alpha * recom coeff
             for n in np.arange(nupper, self.nmax+1):
                 for l in np.arange(n):
-                    conf_i = self.Config(n=n, l=l)
+                    conf_i = self.config(n=n, l=l)
                     if self.recom:
                         lhs_rr += 10**self.Alpha_nl[conf_i](LogT) * self.C[conf_i][conf_k]
             
             rhs    = 0
-            conf_i = self.Config(n=nupper, l=lup)
+            conf_i = self.config(n=nupper, l=lup)
             
             for nd in np.arange(1, nupper):
                 for ld in [lup-1, lup+1]:
                     if (ld >=0) & (ld < nd):
-                        conf_k = self.Config(n=nd, l=ld)
+                        conf_k = self.config(n=nd, l=ld)
                         rhs += self.A[conf_i][conf_k]
                 if (nd == 1) & (nupper == 2) & (lup == 0):
                     ld     = 0
-                    conf_k = self.Config(n=nd, l=ld)
+                    conf_k = self.config(n=nd, l=ld)
                     rhs    += self.A[conf_i][conf_k]
             
             lterms[lup] = lhs_rr / rhs
