@@ -7,12 +7,13 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import sys
 from pathlib import Path
+import os
 
 # local
 # sys.path.insert(0, str(Path(__file__).resolve().parents[2]) + '/src/hylightpy' )
 
 # GitHub Actions
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+sys.path.insert(0, os.path.abspath('../../')) 
 #print(">>> sys.path[0]:", sys.path[0])
 
 #print(">>> Sphinx is using:", hylightpy.__file__)
