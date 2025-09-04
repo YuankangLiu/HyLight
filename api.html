@@ -178,7 +178,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -235,7 +235,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -243,6 +243,305 @@
         <article role="main" id="furo-main-content">
           <section id="api">
 <h1>API<a class="headerlink" href="#api" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="hylightpy.HIAtom">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hylightpy.</span></span><span class="sig-name descname"><span class="pre">HIAtom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coll</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./cache/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caseB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom" title="Link to this definition">¶</a></dt>
+<dd><p>Compute level population for HI using the cascade matrix formalism.
+See Osterbrock &amp; Ferland 2006, section 4.2</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.alpha_A">
+<span class="sig-name descname"><span class="pre">alpha_A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.alpha_A" title="Link to this definition">¶</a></dt>
+<dd><p>Fit to Case A recombination coefficient at log temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>LogT</strong> (<em>float</em>) – Log10 of temperature. Default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitted recombination rate coefficient.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.alpha_B">
+<span class="sig-name descname"><span class="pre">alpha_B</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.alpha_B" title="Link to this definition">¶</a></dt>
+<dd><p>Fit to Case B recombination coefficient at log temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>LogT</strong> (<em>float</em>) – Log10 of temperature. Default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitted recombination rate coefficient.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.alpha_effective">
+<span class="sig-name descname"><span class="pre">alpha_effective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.alpha_effective" title="Link to this definition">¶</a></dt>
+<dd><p>Effective recombination rate coefficient to a speciic level nl.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – Principle quantum number. Default is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Angular momentum quantum number. Default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>LogT</strong> (<em>float</em>) – Temperature in log10. Default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Effective recombination coefficient.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman">
+<span class="sig-name descname"><span class="pre">collisional_deexcitation_rate_Lebedev_Beigman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Te</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman" title="Link to this definition">¶</a></dt>
+<dd><p>Collisional excitation rate calculated based on Lebedev &amp; Beigman 1998 for Rydberg atoms (n &gt;= 5).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nu</strong> (<em>int</em>) – Upper level. Default is <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p></li>
+<li><p><strong>nl</strong> (<em>int</em>) – Lower level. Default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>Te</strong> (<em>float</em>) – Temperature. Default is <code class="docutils literal notranslate"><span class="pre">10000.0</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Collisional excitation rate cefficient q_lu.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.collisional_excitation_rate_Lebedev_Beigman">
+<span class="sig-name descname"><span class="pre">collisional_excitation_rate_Lebedev_Beigman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Te</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.collisional_excitation_rate_Lebedev_Beigman" title="Link to this definition">¶</a></dt>
+<dd><p>Collisional de-excitation rate calculated based on Lebedev &amp; Beigman 1998 for Rydberg atoms (n &gt;= 5).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nu</strong> (<em>int</em>) – Upper level. Default is <code class="docutils literal notranslate"><span class="pre">6</span></code>.</p></li>
+<li><p><strong>nl</strong> (<em>int</em>) – Lower level. Default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>Te</strong> (<em>float</em>) – Temperature. Default is <code class="docutils literal notranslate"><span class="pre">10000.0</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Collisional de-excitation rate cefficient q_ul.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.compute_all_level_pops">
+<span class="sig-name descname"><span class="pre">compute_all_level_pops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_all_level_pops" title="Link to this definition">¶</a></dt>
+<dd><p>Compute level population for all levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
+<li><p><strong>LogT</strong> (<em>float</em>) – Temperature in log10. Default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Level population for all levels in units of cm^{-3}.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.compute_cascade_matrix">
+<span class="sig-name descname"><span class="pre">compute_cascade_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_cascade_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Compute cascade matrix from Einstein coefficients</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Cascade matrix.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.compute_level_pop">
+<span class="sig-name descname"><span class="pre">compute_level_pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_level_pop" title="Link to this definition">¶</a></dt>
+<dd><p>Compute level population for a given level at a given density and temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen density [cm^{03}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
+<li><p><strong>LogT</strong> (<em>float</em>) – Temperature in log10. Default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Principle quantum number of the desired level. Default is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Angular momentum quantum number of the desired level. Default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>verbose</strong> (<em>boolean</em>) – Output diagnostic information. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Level population density of the desired level in units of cm^{-3}.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.config">
+<span class="sig-name descname"><span class="pre">config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.config" title="Link to this definition">¶</a></dt>
+<dd><p>Configuration states are tuples of the form (n,l), where        
+n = principle quantum number
+l = angular momentum quantum number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – Principle quantum number. Default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Angular momentum quantum number. Default is <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configuration of a specific state in tuple.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.de_config">
+<span class="sig-name descname"><span class="pre">de_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.de_config" title="Link to this definition">¶</a></dt>
+<dd><p>Extract n and l value for a given configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>tuple</em>) – Configuration of a state.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Principle quantum number and angular momentum quantum number.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.fit_collisional_ex_rates">
+<span class="sig-name descname"><span class="pre">fit_collisional_ex_rates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.fit_collisional_ex_rates" title="Link to this definition">¶</a></dt>
+<dd><p>Provide fitting function for collisional excitation rate from the ground state.
+The fitting funcition is of the form:
+Collisional_rate(n, l, T) = 10**q_lu(10**LogT)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fitting function of the collisioanl excitation rate coefficient.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.fit_recombination_rates">
+<span class="sig-name descname"><span class="pre">fit_recombination_rates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.fit_recombination_rates" title="Link to this definition">¶</a></dt>
+<dd><p>Provide fitting function for recombination rate as a function of log10 T.
+The fitting funcition is of the form:
+Recombination_rate(n, l, T) = 10**Alpha_nk(10**LogT)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fitting function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.get_all_configs">
+<span class="sig-name descname"><span class="pre">get_all_configs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.get_all_configs" title="Link to this definition">¶</a></dt>
+<dd><p>Get all the configurations of all the atomic states (n, l).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All the configurations of the atomic states.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.psi">
+<span class="sig-name descname"><span class="pre">psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Te</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.psi" title="Link to this definition">¶</a></dt>
+<dd><p>E1 is the first order exponential integral. I have used sc.exp1 to calculate that. 
+The energy difference is expressed in absolute values, see Lebedev &amp; Beigman 1998 page 225 eq. 8.30.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.read_effective_collisional_strength">
+<span class="sig-name descname"><span class="pre">read_effective_collisional_strength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.read_effective_collisional_strength" title="Link to this definition">¶</a></dt>
+<dd><p>Read level-resolved collisional strength up to n = 5 level from ascii file in the data folder (h_coll_str.dat).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>verbose</strong> (<em>boolean</em>) – Output diagnostic information.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Collisional stength up to n = 5 tabulated by Anderson et al. 2000.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.read_recombination_rates">
+<span class="sig-name descname"><span class="pre">read_recombination_rates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.read_recombination_rates" title="Link to this definition">¶</a></dt>
+<dd><p>Read level-resolved recombination rates from ascii file in the data folder (h_iso_recomb_HI_150.dat).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of the tabulated recombination coefficient file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of the recombination coefficients.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.read_tabulated_Einstein_coefficients">
+<span class="sig-name descname"><span class="pre">read_tabulated_Einstein_coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.read_tabulated_Einstein_coefficients" title="Link to this definition">¶</a></dt>
+<dd><p>Read tabulated Einstein coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Filename.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of Einstein A values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
         </article>
@@ -280,8 +579,46 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">API</a><ul>
+<li><a class="reference internal" href="#hylightpy.HIAtom"><code class="docutils literal notranslate"><span class="pre">HIAtom</span></code></a><ul>
+<li><a class="reference internal" href="#hylightpy.HIAtom.alpha_A"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_A()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.alpha_B"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_B()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.alpha_effective"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_effective()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman"><code class="docutils literal notranslate"><span class="pre">HIAtom.collisional_deexcitation_rate_Lebedev_Beigman()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.collisional_excitation_rate_Lebedev_Beigman"><code class="docutils literal notranslate"><span class="pre">HIAtom.collisional_excitation_rate_Lebedev_Beigman()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.compute_all_level_pops"><code class="docutils literal notranslate"><span class="pre">HIAtom.compute_all_level_pops()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.compute_cascade_matrix"><code class="docutils literal notranslate"><span class="pre">HIAtom.compute_cascade_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.compute_level_pop"><code class="docutils literal notranslate"><span class="pre">HIAtom.compute_level_pop()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.config"><code class="docutils literal notranslate"><span class="pre">HIAtom.config()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.de_config"><code class="docutils literal notranslate"><span class="pre">HIAtom.de_config()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.fit_collisional_ex_rates"><code class="docutils literal notranslate"><span class="pre">HIAtom.fit_collisional_ex_rates()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.fit_recombination_rates"><code class="docutils literal notranslate"><span class="pre">HIAtom.fit_recombination_rates()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.get_all_configs"><code class="docutils literal notranslate"><span class="pre">HIAtom.get_all_configs()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.psi"><code class="docutils literal notranslate"><span class="pre">HIAtom.psi()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.read_effective_collisional_strength"><code class="docutils literal notranslate"><span class="pre">HIAtom.read_effective_collisional_strength()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.read_recombination_rates"><code class="docutils literal notranslate"><span class="pre">HIAtom.read_recombination_rates()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.read_tabulated_Einstein_coefficients"><code class="docutils literal notranslate"><span class="pre">HIAtom.read_tabulated_Einstein_coefficients()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
