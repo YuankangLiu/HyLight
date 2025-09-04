@@ -8,9 +8,12 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]) + '/src/hylightpy' )
+# local
+# sys.path.insert(0, str(Path(__file__).resolve().parents[2]) + '/src/hylightpy' )
 
-print(">>> sys.path[0]:", sys.path[0])
+# GitHub Actions
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+#print(">>> sys.path[0]:", sys.path[0])
 
 #print(">>> Sphinx is using:", hylightpy.__file__)
 #importlib.reload(hylightpy)
