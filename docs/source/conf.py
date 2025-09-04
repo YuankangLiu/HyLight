@@ -16,7 +16,7 @@ import os
 sys.path.insert(0, os.path.abspath('../../')) 
 #print(">>> sys.path[0]:", sys.path[0])
 
-#print(">>> Sphinx is using:", hylightpy.__file__)
+print(">>> Sphinx is using:", hylightpy.__file__)
 #importlib.reload(hylightpy)
 
 project = 'HyLight'
