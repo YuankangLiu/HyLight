@@ -1,5 +1,5 @@
 API
 ===
 
-.. autoclass:: hylightpy::HILevelPopulations
+.. autoclass:: hylightpy::HIAtom
    :members:
