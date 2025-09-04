@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hylightpy"
-version = "0.0.9"
+version = "0.0.11"
 authors = [
   { name="Yuankang Liu", email="yuankang.liu@gmail.com" },
   { name="Tom Theuns", email="tom.theuns@gmail.com" }
