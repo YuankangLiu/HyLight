@@ -15,3 +15,5 @@ Then we can initialise the hydrogen class using
 Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisioanal excitation from the ground state.
 
 We also set the cache folder to the current working directory. The cache folder will store the cascade matrices and Einstein coefficients. 
+
+Now we can calculate the level population of the excited states. For examples, we are intersted in the 3s state. 
