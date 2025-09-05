@@ -4,7 +4,7 @@ HyLight (HYdrogen recombination LIne emission from ionized Gas in varying tHerma
 
 ## Installation
 
-The package can be installed via
+The package is available on [PYPI](https://pypi.org/project/hylightpy/):
 ```
 pip install hylightpy
 ```
@@ -35,6 +35,10 @@ More examples can be found in the `examples/` folder.
 ## Method
 
 The method is described in Liu et al. 2025. 
+
+## Documentation
+
+The documentation is available [here](https://yuankangliu.github.io/HyLight/installation.html).
 
 ## License
 
