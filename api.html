@@ -304,6 +304,27 @@ See Osterbrock &amp; Ferland 2006, section 4.2</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="hylightpy.HIAtom.branching_ratio">
+<span class="sig-name descname"><span class="pre">branching_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nupper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlower</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LogT</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caseB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.branching_ratio" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the fraction of recombination that results in the emission of a specific line, taking into account only radiative processes. 
+The definition can be found in Liu et al. 2025.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nupper</strong> (<em>int</em>) – Principle quantum number for the upper level. Default is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
+<li><p><strong>nlower</strong> (<em>int</em>) – Principle quantum number for the lower level. Default is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The fraction of recombination that results in the emission of a specific line.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman">
 <span class="sig-name descname"><span class="pre">collisional_deexcitation_rate_Lebedev_Beigman</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Te</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman" title="Link to this definition">¶</a></dt>
 <dd><p>Collisional excitation rate calculated based on Lebedev &amp; Beigman 1998 for Rydberg atoms (n &gt;= 5).</p>
@@ -643,6 +664,7 @@ The energy difference is expressed in absolute values, see Lebedev &amp; Beigman
 <li><a class="reference internal" href="#hylightpy.HIAtom.alpha_A"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_A()</span></code></a></li>
 <li><a class="reference internal" href="#hylightpy.HIAtom.alpha_B"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_B()</span></code></a></li>
 <li><a class="reference internal" href="#hylightpy.HIAtom.alpha_effective"><code class="docutils literal notranslate"><span class="pre">HIAtom.alpha_effective()</span></code></a></li>
+<li><a class="reference internal" href="#hylightpy.HIAtom.branching_ratio"><code class="docutils literal notranslate"><span class="pre">HIAtom.branching_ratio()</span></code></a></li>
 <li><a class="reference internal" href="#hylightpy.HIAtom.collisional_deexcitation_rate_Lebedev_Beigman"><code class="docutils literal notranslate"><span class="pre">HIAtom.collisional_deexcitation_rate_Lebedev_Beigman()</span></code></a></li>
 <li><a class="reference internal" href="#hylightpy.HIAtom.collisional_excitation_rate_Lebedev_Beigman"><code class="docutils literal notranslate"><span class="pre">HIAtom.collisional_excitation_rate_Lebedev_Beigman()</span></code></a></li>
 <li><a class="reference internal" href="#hylightpy.HIAtom.compute_all_level_pops"><code class="docutils literal notranslate"><span class="pre">HIAtom.compute_all_level_pops()</span></code></a></li>
