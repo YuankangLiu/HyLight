@@ -378,8 +378,11 @@ class HIAtom:
     ##################################################################    
     #                Cascade matrix methods                          #
     ##################################################################
-
-    def compute_level_pop(self, nHII = 1.0, ne = 1.0, nHI=1.0, LogT=4.0, n=2, l=0, verbose=False):
+    def compute_level_pop(self, nHII = 1.0 * unyt.cm**(-3), 
+                                ne = 1.0 * unyt.cm**(-3), 
+                                nHI = 1.0 * unyt.cm**(-3), 
+                                temp=1e4 * unyt.K, 
+                                n=2, l=0, verbose=False):
         """
         Compute level population for a given level at a given density and temperature.
         
@@ -400,8 +403,21 @@ class HIAtom:
         :returns: Level population density of the desired level in units of cm^{-3}.
         :rtype: float
         """
-
-        #
+        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert (type(n) == int) and (n >= 3), "Invalid input for principle quantum number n."
+        assert (type(l) == int) and (l < n), "Invalid input for angular momentum quantum number l."
+        
+        try:
+            ne = ne.in_units('cm**(-3)').value
+            nHI = nHI.in_units('cm**(-3)').value
+            nHII = nHII.in_units('cm**(-3)').value
+            temp = temp.in_units('K').value
+        except TypeError:
+            pass
+        
         # check if all the quantities have the same dimension
         # convert LogT to float
         LogT = float(LogT)
@@ -466,7 +482,11 @@ class HIAtom:
             print("Computed level pop for level = {0:s}, log N = {1:2.4f}".format(conf_i, np.log10(N)))
         return N
 
-    def compute_all_level_pops(self, nHII = 1.0, ne = 1.0, nHI = 1.0, LogT=4.0):
+    def compute_all_level_pops(self, nHII = 1.0 * unyt.cm**(-3), 
+                                     ne = 1.0 * unyt.cm**(-3), 
+                                     nHI = 1.0 * unyt.cm**(-3), 
+                                     temp=1e4 * unyt.K, 
+                                     n=2, l=0, verbose=False):
         """
         Compute level population for all levels.
         
@@ -481,8 +501,25 @@ class HIAtom:
         :returns: Level population for all levels in units of cm^{-3}. 
         :rtype: float
         """
+        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert (type(n) == int) and (n >= 3), "Invalid input for principle quantum number n."
+        assert (type(l) == int) and (l < n), "Invalid input for angular momentum quantum number l."
         
-        #
+        try:
+            ne = ne.in_units('cm**(-3)').value
+            nHI = nHI.in_units('cm**(-3)').value
+            nHII = nHII.in_units('cm**(-3)').value
+            temp = temp.in_units('K').value
+        except TypeError:
+            pass
+        
+        # check if all the quantities have the same dimension
+        # convert LogT to float
+        LogT = np.log10(temp)
+        
         nmax     = self.nmax
         A        = self.A
         C        = self.C
@@ -873,6 +910,93 @@ class HIAtom:
                     alpha_nl += 10**self.Alpha_nl[conf_i](LogT) * self.C[conf_i][conf_k]
         return alpha_nl
 
+    def get_A_coeffs(self, nupper=3, nlower=2):
+        '''
+        Summing Einstein coefficients for all substates in the upper level.
+
+        :param nupper: Principle quantum number for the upper level. Default is ``3``.
+        :type nupper: int
+        :param nlower: Principle quantum number for the lower level. Default is ``2``.
+        :type nlower: int
+        
+        :return: Summed Einstein coefficient.
+        :rtype: dict
+        '''
+        assert (type(nupper) == int) and (nupper >= 2) and (nupper > nlower), "Invalid input for nup."
+        assert (type(nlower) == int) and (nlower >= 1), "Invalid input for ndown."
+        
+        As = {}
+        for lup in np.arange(nupper):
+            conf_up  = self.config(n=nupper, l=lup)
+            A        = 0.0
+            for ldown in np.arange(nlower):
+                conf_down = self.config(n=nlower, l=ldown)
+                try:
+                    A += self.A[conf_up][conf_down]
+                except:
+                    pass
+            As[conf_up] = A
+        return As
+
+    def get_emissivity(self, ne=100. * unyt.cm**(-3), 
+                             nHI=1e-5 * unyt.cm**(-3), 
+                             nHII=100. * unyt.cm**(-3), 
+                             temp=1e4 * unyt.K, 
+                             nupper=3, nlower=2):
+        '''Compute line emissivity for given density and temperature. 
+
+        :param ne: Electron density. Default is 100 * unyt.cm^(-3). 
+        :type ne: float
+        :param nHI: Neutral hydrogen density. Default is 100 * unyt.cm^(-3). 
+        :type nHI: float
+        :param nHII: Proton density. Default is 100 * unyt.cm^(-3). 
+        :type nHII: float
+        :param logT: Temperature in log10. 
+        :type: float
+        :param nupper: Principle quantum number for the upper level. Default is ``3``.
+        :type nupper: int
+        :param nlower: Principle quantum number for the lower level. Default is ``2``.
+        :type nlower: int 
+        :return: Line emissisity in erg s**(-1) cm**(-3) 
+        :rtype: float
+        '''
+        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert (type(nupper) == int) and (nupper >= 2) and (nupper > nlower), "Invalid input for principle quantum number nupper."
+        assert (type(nlower) == int) and (nlower >= 1), "Invalid input for principle quantum number nlower."
+        
+        try:
+            ne = ne.in_units('cm**(-3)').value
+            nHI = nHI.in_units('cm**(-3)').value
+            nHII = nHII.in_units('cm**(-3)').value
+            temp = temp.in_units('K').value
+        except TypeError:
+            pass
+        
+        population = np.zeros(nupper)
+        for l in np.arange(nupper):
+            population[l] = self.compute_level_pop(nHII=nHII * unyt.cm**(-3), 
+                                                   ne=ne * unyt.cm**(-3), 
+                                                   nHI=nHI * unyt.cm**(-3), 
+                                                   temp=temp * unyt.K, 
+                                                   n=nupper, l=int(l), verbose=False)
+            
+        As = self.get_A_coeffs(nupper=nupper, nlower=nlower)
+    
+        emis = {}
+        emis_tot = 0
+        for lup in np.arange(nupper):
+            # get population level
+            conf        = self.config(n=nupper, l=lup)
+            emis[conf] = {}
+            emis[conf] = As[conf] * unyt.s**(-1) * self.Eion * (1./nlower**2 - 1./nupper**2) * population[lup] * unyt.cm**(-3)
+            emis_tot += emis[conf]
+            
+        return emis_tot.in_units('erg * cm**(-3) * s**(-1)')
+
+
     def branching_ratio(self, nupper=3, nlower=2, LogT=4.0, caseB=True):
         if caseB == True:
             alpha_tot = self.alpha_B(LogT=LogT)
@@ -921,7 +1045,5 @@ class HIAtom:
         alpha_eff = 0
         for i, level_config in enumerate(As.keys()):
             alpha_eff += lterms[i] * As[level_config]
-            print('alpha_eff', alpha_eff, level_config)
-            print('alpha_a', alpha_tot)
         R = alpha_eff / alpha_tot
         return R
