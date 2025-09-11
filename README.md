@@ -4,7 +4,7 @@ HyLight (HYdrogen recombination LIne emission from ionized Gas in varying tHerma
 
 ## Installation
 
-The package is available on [PYPI](https://pypi.org/project/hylightpy/):
+The package can be installed via
 ```
 pip install hylightpy
 ```
@@ -16,29 +16,54 @@ To import the package, type
 import hylightpy
 ```
 
+### Initialisation
 Then initialise the class using 
 ```
-HI = hylightpy.HIAtom(nmax = 10, verbose=True, caseB=True, 
+HI = hylightpy.HIAtom(nmax = 40, verbose=True, caseB=True, 
                       recom=True, coll=False, 
                       cache_path='./cache/')
 ```
 where the user specify the number of levels in the hydrogen atom, the Case, and whether to include radiative processes and collisional processes. The user also have the freedom to specify the cache folder path, which will be storing cascade matrix elements. 
 
-Then call the function above to compute the level popualtion density. We use 3p state as an example (n = 3, l = 1):
+### Line emissivity calculation
+
+We utilise `unyt` package to specify the gas density and temperature. 
+
 ```
-HI.compute_level_pop(ne=1e2, nHI=1e-5, nHII=1e2, LogT=4., n=3, l=1)
+import unyt
 ```
-Here, the user has to provide electron, HI and HII densities as well as the temperature. 
+
+We use the function `get_emissivity` to calculate the line emissivity at a given density and temperature. 
+
+```
+HI.get_line_emissivity(ne=100. * unyt.cm**(-3), 
+                       nHI=1e-5 * unyt.cm**(-3), 
+                       nHII=100. * unyt.cm**(-3), 
+                       temp=1e4 * unyt.K, 
+                       nupper=3, nlower=2)
+```
+The above line calculates the H $\alpha$ line emissivity at a given gas density (electron density of 100 $\rm{cm}^{-3}$, proton density of 100 $\rm{cm}^{-3}$ and neutral hydrogen density of 1e-5 $\rm{cm}^{-3}$) and temperature (1e4 K). 
+
+### Level population
+
+The function `compute_level_pop` computes the level popualtion density. The following line calculates the 3 $p$ state population density at the same condition:
+```
+HI.compute_level_pop(nHII=100. * unyt.cm**(-3), 
+                     ne=100. * unyt.cm**(-3), 
+                     nHI=1e-5 * unyt.cm**(-3), 
+                     temp=1e4 * unyt.K, 
+                     n=3, l=1)
+```
 
 More examples can be found in the `examples/` folder. 
+
+## Documentation
+
+The documentation is available [here](https://yuankangliu.github.io/HyLight/).
 
 ## Method
 
 The method is described in Liu et al. 2025. 
-
-## Documentation
-
-The documentation is available [here](https://yuankangliu.github.io/HyLight/installation.html).
 
 ## License
 
