@@ -382,7 +382,7 @@ class HIAtom:
                                 ne = 1.0 * unyt.cm**(-3), 
                                 nHI = 1.0 * unyt.cm**(-3), 
                                 temp=1e4 * unyt.K, 
-                                n=2, l=0, verbose=False):
+                                n=3, l=0, verbose=False):
         """
         Compute level population for a given level at a given density and temperature.
         
@@ -420,7 +420,7 @@ class HIAtom:
         
         # check if all the quantities have the same dimension
         # convert LogT to float
-        LogT = float(LogT)
+        LogT = np.log10(temp)
         
         nmax     = self.nmax
         A        = self.A
