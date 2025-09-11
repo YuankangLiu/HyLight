@@ -998,6 +998,17 @@ class HIAtom:
 
 
     def branching_ratio(self, nupper=3, nlower=2, LogT=4.0, caseB=True):
+        '''
+        Calculate the fraction of recombination that results in the emission of a specific line, taking into account only radiative processes. 
+        The definition can be found in Liu et al. 2025. 
+
+        :param nupper: Principle quantum number for the upper level. Default is ``3``.
+        :type nupper: int
+        :param nlower: Principle quantum number for the lower level. Default is ``2``.
+        :type nlower: int
+        :return: The fraction of recombination that results in the emission of a specific line. 
+        :rtype: float
+        '''
         if caseB == True:
             alpha_tot = self.alpha_B(LogT=LogT)
         else:
