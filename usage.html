@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API" href="api.html" /><link rel="prev" title="Installation" href="installation.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>Usage - HyLight 0.0.11 documentation</title>
+        <title>Usage - HyLight 0.0.12 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">HyLight 0.0.11 documentation</div></a>
+      <a href="index.html"><div class="brand">HyLight 0.0.12 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -178,7 +178,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -189,7 +189,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">HyLight 0.0.11 documentation</span>
+  <span class="sidebar-brand-text">HyLight 0.0.12 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -235,7 +235,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -243,6 +243,8 @@
         <article role="main" id="furo-main-content">
           <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
+<section id="initialisation">
+<h2>Initialisation<a class="headerlink" href="#initialisation" title="Link to this heading">¶</a></h2>
 <p>To import the package, type
 .. code-block:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hylightpy</span>
@@ -256,7 +258,35 @@
 </div>
 <p>Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisioanal excitation from the ground state.</p>
 <p>We also set the cache folder to the current working directory. The cache folder will store the cascade matrices and Einstein coefficients.</p>
+</section>
+<section id="line-emissivity-calculation">
+<h2>Line emissivity calculation<a class="headerlink" href="#line-emissivity-calculation" title="Link to this heading">¶</a></h2>
+<p>We utilise <code class="docutils literal notranslate"><span class="pre">unyt</span></code> package to specify the gas density and temperature.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unyt</span>
+</pre></div>
+</div>
+<p>We use the function <code class="docutils literal notranslate"><span class="pre">get_emissivity</span></code> to calculate the line emissivity at a given density and temperature.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span><span class="o">.</span><span class="n">get_line_emissivity</span><span class="p">(</span><span class="n">ne</span><span class="o">=</span><span class="mf">100.</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                       <span class="n">nHI</span><span class="o">=</span><span class="mf">1e-5</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                       <span class="n">nHII</span><span class="o">=</span><span class="mf">100.</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                       <span class="n">temp</span><span class="o">=</span><span class="mf">1e4</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+                       <span class="n">nupper</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nlower</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The above line calculates the H <span class="math notranslate nohighlight">\(\alpha\)</span> line emissivity at a given gas density (electron density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span>, proton density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span> and neutral hydrogen density of <span class="math notranslate nohighlight">\(10^{-5}\,\rm{cm}^{-3}\)</span>) and temperature (<span class="math notranslate nohighlight">\(10^4\,\rm{K}\)</span>).</p>
+</section>
+<section id="level-population">
+<h2>Level population<a class="headerlink" href="#level-population" title="Link to this heading">¶</a></h2>
+<p>The function <code class="docutils literal notranslate"><span class="pre">compute_level_pop</span></code> computes the level population density. The following line calculates the 3 <span class="math notranslate nohighlight">\(p\)</span> state population density at the same condition</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span><span class="o">.</span><span class="n">compute_level_pop</span><span class="p">(</span><span class="n">nHII</span><span class="o">=</span><span class="mf">100.</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                     <span class="n">ne</span><span class="o">=</span><span class="mf">100.</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                     <span class="n">nHI</span><span class="o">=</span><span class="mf">1e-5</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span>
+                     <span class="n">temp</span><span class="o">=</span><span class="mf">1e4</span> <span class="o">*</span> <span class="n">unyt</span><span class="o">.</span><span class="n">K</span><span class="p">,</span>
+                     <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Now we can calculate the level population of the excited states. For examples, we are intersted in the 3s state.</p>
+</section>
 </section>
 
         </article>
@@ -302,15 +332,37 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#initialisation">Initialisation</a></li>
+<li><a class="reference internal" href="#line-emissivity-calculation">Line emissivity calculation</a></li>
+<li><a class="reference internal" href="#level-population">Level population</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=0c446633"></script>
+</div><script src="_static/documentation_options.js?v=3bbcec59"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>
