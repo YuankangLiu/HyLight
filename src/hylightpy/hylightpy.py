@@ -75,7 +75,7 @@ class HIAtom:
         #self.CollEx_table = self.ReadCollisionalExRates(self.TabulatedCollisonalExRates)
         self.q_nl = self.fit_collisional_ex_rates()
         if verbose:
-            print("Collsional Excitaion Rates read and fitted")
+            print("Collisional Excitaion Rates read and fitted")
 
         # Compute cascade matrix
         self.C    = self.compute_cascade_matrix()
@@ -392,8 +392,8 @@ class HIAtom:
         :type ne: float
         :param nHI: Neutral hydrogen density [cm^{03}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
         :type nHI: float
-        :param LogT: Temperature in log10. Default is ``4.0``.
-        :type LogT: float
+        :param temp: Temperature. Default is ``10000.0``.
+        :type temp: float
         :param n: Principle quantum number of the desired level. Default is ``2``.
         :type n: int
         :param l: Angular momentum quantum number of the desired level. Default is ``0``.
@@ -485,8 +485,7 @@ class HIAtom:
     def compute_all_level_pops(self, nHII = 1.0 * unyt.cm**(-3), 
                                      ne = 1.0 * unyt.cm**(-3), 
                                      nHI = 1.0 * unyt.cm**(-3), 
-                                     temp=1e4 * unyt.K, 
-                                     n=2, l=0, verbose=False):
+                                     temp=1e4 * unyt.K, verbose=False):
         """
         Compute level population for all levels.
         
@@ -496,8 +495,8 @@ class HIAtom:
         :type ne: float
         :param nHI: Neutral hydrogen number density [cm^{-3}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
         :type nHI: float
-        :param LogT: Temperature in log10. Default is ``4.0``.
-        :type LogT: float
+        :param temp: Temperature. Default is ``10000.0``.
+        :type temp: float
         :returns: Level population for all levels in units of cm^{-3}. 
         :rtype: float
         """
@@ -505,8 +504,7 @@ class HIAtom:
         assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
         assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
         assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert (type(n) == int) and (n >= 3), "Invalid input for principle quantum number n."
-        assert (type(l) == int) and (l < n), "Invalid input for angular momentum quantum number l."
+        
         
         try:
             ne = ne.in_units('cm**(-3)').value
