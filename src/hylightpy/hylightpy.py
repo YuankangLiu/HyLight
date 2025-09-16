@@ -378,21 +378,21 @@ class HIAtom:
     ##################################################################    
     #                Cascade matrix methods                          #
     ##################################################################
-    def compute_level_pop(self, nHII = 1.0 * unyt.cm**(-3), 
-                                ne = 1.0 * unyt.cm**(-3), 
-                                nHI = 1.0 * unyt.cm**(-3), 
-                                temp=1e4 * unyt.K, 
+    def compute_level_pop(self, nHII = [1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                ne = [1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                nHI = [1e-5] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                temp = [1e4] * unyt.unyt_array(1, 'K'), 
                                 n=3, l=0, verbose=False):
         """
         Compute level population for a given level at a given density and temperature.
         
-        :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :param nHII: Proton number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)').
         :type nHII: float
-        :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :param ne: Electron number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)').
         :type ne: float
-        :param nHI: Neutral hydrogen density [cm^{03}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :param nHI: Neutral hydrogen density [cm^{03}]. Default is [1e-5] * unyt.unyt_array(1, 'cm**(-3)'). If collsional excitation is not enabled, any number input here will not go into the calculation. 
         :type nHI: float
-        :param temp: Temperature. Default is ``10000.0``.
+        :param temp: Temperature. Default is [1e4] * unyt.unyt_array(1, 'K').
         :type temp: float
         :param n: Principle quantum number of the desired level. Default is ``2``.
         :type n: int
@@ -403,10 +403,10 @@ class HIAtom:
         :returns: Level population density of the desired level in units of cm^{-3}.
         :rtype: float
         """
-        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(ne) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHI) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHII) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(temp) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
         assert (type(n) == int) and (n >= 3), "Invalid input for principle quantum number n."
         assert (type(l) == int) and (l < n), "Invalid input for angular momentum quantum number l."
         
@@ -482,28 +482,28 @@ class HIAtom:
             print("Computed level pop for level = {0:s}, log N = {1:2.4f}".format(conf_i, np.log10(N)))
         return N
 
-    def compute_all_level_pops(self, nHII = 1.0 * unyt.cm**(-3), 
-                                     ne = 1.0 * unyt.cm**(-3), 
-                                     nHI = 1.0 * unyt.cm**(-3), 
-                                     temp=1e4 * unyt.K, verbose=False):
+    def compute_all_level_pops(self, nHII = [1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                     ne = [1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                     nHI = [1e-5] * unyt.unyt_array(1, 'cm**(-3)'), 
+                                     temp = [1e4] * unyt.unyt_array(1, 'K'), verbose=False):
         """
         Compute level population for all levels.
         
-        :param nHII: Proton number density [cm^{-3}]. Default is ``1.0``.
+        :param nHII: Proton number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)').
         :type nHII: float
-        :param ne: Electron number density [cm^{-3}]. Default is ``1.0``.
+        :param ne: Electron number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)').
         :type ne: float
-        :param nHI: Neutral hydrogen number density [cm^{-3}]. Default is ``1.0``. If collsional excitation is not enabled, any number input here will not go into the calculation. 
+        :param nHI: Neutral hydrogen number density [cm^{-3}]. Default is [1e-5] * unyt.unyt_array(1, 'cm**(-3)'). If collsional excitation is not enabled, any number input here will not go into the calculation. 
         :type nHI: float
-        :param temp: Temperature. Default is ``10000.0``.
+        :param temp: Temperature. Default is [1e4] * unyt.unyt_array(1, 'K').
         :type temp: float
         :returns: Level population for all levels in units of cm^{-3}. 
         :rtype: float
         """
-        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(ne) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHI) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHII) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(temp) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
         
         
         try:
@@ -936,20 +936,20 @@ class HIAtom:
             As[conf_up] = A
         return As
 
-    def get_emissivity(self, ne=100. * unyt.cm**(-3), 
-                             nHI=1e-5 * unyt.cm**(-3), 
-                             nHII=100. * unyt.cm**(-3), 
-                             temp=1e4 * unyt.K, 
+    def get_emissivity(self, ne=[1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                             nHI=[1e-5] * unyt.unyt_array(1, 'cm**(-3)'), 
+                             nHII=[1e2] * unyt.unyt_array(1, 'cm**(-3)'), 
+                             temp=[1e4] * unyt.unyt_array(1, 'K'), 
                              nupper=3, nlower=2):
         '''Compute line emissivity for given density and temperature. 
 
-        :param ne: Electron density. Default is 100 * unyt.cm^(-3). 
+        :param ne: Electron density. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)'). 
         :type ne: float
-        :param nHI: Neutral hydrogen density. Default is 100 * unyt.cm^(-3). 
+        :param nHI: Neutral hydrogen density. Default is [1e-5] * unyt.unyt_array(1, 'cm**(-3)'). 
         :type nHI: float
-        :param nHII: Proton density. Default is 100 * unyt.cm^(-3). 
+        :param nHII: Proton density. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)'). 
         :type nHII: float
-        :param logT: Temperature in log10. 
+        :param logT: Temperature. Default is [1e4] * unyt.unyt_array(1, 'K'). 
         :type: float
         :param nupper: Principle quantum number for the upper level. Default is ``3``.
         :type nupper: int
@@ -958,10 +958,10 @@ class HIAtom:
         :return: Line emissisity in erg s**(-1) cm**(-3) 
         :rtype: float
         '''
-        assert type(ne) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHI) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(nHII) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
-        assert type(temp) == unyt.array.unyt_quantity, 'Please input quantities with units using unyt package.'
+        assert type(ne) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHI) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(nHII) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
+        assert type(temp) == unyt.array.unyt_array, 'Please input quantities with units using unyt_array.'
         assert (type(nupper) == int) and (nupper >= 2) and (nupper > nlower), "Invalid input for principle quantum number nupper."
         assert (type(nlower) == int) and (nlower >= 1), "Invalid input for principle quantum number nlower."
         
@@ -975,10 +975,10 @@ class HIAtom:
         
         population = np.zeros(nupper)
         for l in np.arange(nupper):
-            population[l] = self.compute_level_pop(nHII=nHII * unyt.cm**(-3), 
-                                                   ne=ne * unyt.cm**(-3), 
-                                                   nHI=nHI * unyt.cm**(-3), 
-                                                   temp=temp * unyt.K, 
+            population[:, l] = self.compute_level_pop(nHII=nHII * unyt.array.unyt_array(1, 'cm**(-3)'), 
+                                                   ne=ne * unyt.array.unyt_array(1, 'cm**(-3)'), 
+                                                   nHI=nHI * unyt.array.unyt_array(1, 'cm**(-3)'), 
+                                                   temp=temp * unyt.array.unyt_array(1, 'K'),  
                                                    n=nupper, l=int(l), verbose=False)
             
         As = self.get_A_coeffs(nupper=nupper, nlower=nlower)
@@ -989,7 +989,7 @@ class HIAtom:
             # get population level
             conf        = self.config(n=nupper, l=lup)
             emis[conf] = {}
-            emis[conf] = As[conf] * unyt.s**(-1) * self.Eion * (1./nlower**2 - 1./nupper**2) * population[lup] * unyt.cm**(-3)
+            emis[conf] = As[conf] * unyt.s**(-1) * self.Eion * (1./nlower**2 - 1./nupper**2) * population[:, lup] * unyt.cm**(-3)
             emis_tot += emis[conf]
             
         return emis_tot.in_units('erg * cm**(-3) * s**(-1)')
