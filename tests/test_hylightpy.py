@@ -18,40 +18,40 @@ class TestHylightpy(unittest.TestCase):
     def test_level_population_nmax_100_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=100, recom=True, coll=False, 
                                    caseB=True, verbose=True)
-        test_levelpop = test_HI.compute_level_pop(nHII=1e2 * unyt.cm**(-3), 
-                                                  ne=1e2 * unyt.cm**(-3),
-                                                  nHI=1e-5 * unyt.cm**(-3), 
-                                                  temp=1e4 * unyt.K, 
+        test_levelpop = test_HI.compute_level_pop(nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                                  ne=unyt.array.unyt_array([1e2], 'cm**(-3)'),
+                                                  nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
+                                                  temp=unyt.array.unyt_array([1e4], 'K'), 
                                                   n=3, l=0)
         self.assertLessEqual(np.abs(test_levelpop - 2.4209498e-17), 1e-6)
 
     def test_level_population_nmax_50_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=50, recom=True, coll=False, 
                                    caseB=True, verbose=True)
-        test_levelpop = test_HI.compute_level_pop(nHII=1e2 * unyt.cm**(-3), 
-                                                  ne=1e2 * unyt.cm**(-3),
-                                                  nHI=1e-5 * unyt.cm**(-3), 
-                                                  temp=1e4 * unyt.K, 
+        test_levelpop = test_HI.compute_level_pop(nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                                  ne=unyt.array.unyt_array([1e2], 'cm**(-3)'),
+                                                  nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
+                                                  temp=unyt.array.unyt_array([1e4], 'K'), 
                                                   n=3, l=0)
         self.assertLessEqual(np.abs(test_levelpop - 2.41359247e-17), 1e-6)
 
     def test_get_emissivity_nmax_50_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=50, recom=True, coll=False, 
                                    caseB=True, verbose=True)
-        test_emis = test_HI.get_emissivity(nHII = 1e2 * unyt.cm**(-3), 
-                                           nHI  = 1e-5 * unyt.cm**(-3),
-                                           ne   = 1e2 * unyt.cm**(-3), 
-                                           temp = 1e4 * unyt.K,
+        test_emis = test_HI.get_emissivity(nHII = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           nHI  = unyt.array.unyt_array([1e-5], 'cm**(-3)'),
+                                           ne   = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           temp = unyt.array.unyt_array([1e4], 'K'),
                                            nupper=3, nlower=2)
         self.assertLessEqual(np.abs(test_emis.value - 3.45088986e-21), 1e-6)
         
     def test_get_emissivity_nmax_100_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=100, recom=True, coll=False, 
                                    caseB=True, verbose=True)
-        test_emis = test_HI.get_emissivity(nHII = 1e2 * unyt.cm**(-3), 
-                                           nHI  = 1e-5 * unyt.cm**(-3),
-                                           ne   = 1e2 * unyt.cm**(-3), 
-                                           temp = 1e4 * unyt.K,
+        test_emis = test_HI.get_emissivity(nHII = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           nHI  = unyt.array.unyt_array([1e-5], 'cm**(-3)'),
+                                           ne   = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           temp = unyt.array.unyt_array([1e4], 'K'),
                                            nupper=3, nlower=2)
         self.assertLessEqual(np.abs(test_emis.value - 3.50935979e-21), 1e-6)
 
@@ -59,10 +59,10 @@ class TestHylightpy(unittest.TestCase):
         test_HI = hylightpy.HIAtom(nmax=20, recom=True, coll=False, 
                                    caseB=True, verbose=True)
 
-        N = test_HI.compute_all_level_pops(nHII = 100 * unyt.cm**(-3), 
-                                           ne = 100 * unyt.cm**(-3), 
-                                           nHI = 1e-5 * unyt.cm**(-3), 
-                                           temp=1e4 * unyt.K)
+        N = test_HI.compute_all_level_pops(nHII = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           ne = unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                                           nHI = unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
+                                           temp = unyt.array.unyt_array([1e4], 'K'))
         
         nH = 100.
         ne = 100.
