@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Usage" href="usage.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
-        <title>API - HyLight 0.0.14 documentation</title>
+        <title>API - HyLight 0.0.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">HyLight 0.0.14 documentation</div></a>
+      <a href="index.html"><div class="brand">HyLight 0.0.16 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -189,7 +189,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">HyLight 0.0.14 documentation</span>
+  <span class="sidebar-brand-text">HyLight 0.0.16 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -368,15 +368,15 @@ The definition can be found in Liu et al. 2025.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hylightpy.HIAtom.compute_all_level_pops">
-<span class="sig-name descname"><span class="pre">compute_all_level_pops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(10000.,</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_all_level_pops" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_all_level_pops</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([1.e-05],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([10000.],</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_all_level_pops" title="Link to this definition">¶</a></dt>
 <dd><p>Compute level population for all levels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
-<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
-<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
-<li><p><strong>temp</strong> (<em>float</em>) – Temperature. Default is <code class="docutils literal notranslate"><span class="pre">10000.0</span></code>.</p></li>
+<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen number density [cm^{-3}]. Default is [1e-5] * unyt.unyt_array(1, ‘cm**(-3)’). If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature. Default is [1e4] * unyt.unyt_array(1, ‘K’).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -404,15 +404,15 @@ The definition can be found in Liu et al. 2025.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hylightpy.HIAtom.compute_level_pop">
-<span class="sig-name descname"><span class="pre">compute_level_pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(10000.,</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_level_pop" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_level_pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([1.e-05],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([10000.],</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.compute_level_pop" title="Link to this definition">¶</a></dt>
 <dd><p>Compute level population for a given level at a given density and temperature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
-<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
-<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen density [cm^{03}]. Default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
-<li><p><strong>temp</strong> (<em>float</em>) – Temperature. Default is <code class="docutils literal notranslate"><span class="pre">10000.0</span></code>.</p></li>
+<li><p><strong>nHII</strong> (<em>float</em>) – Proton number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>ne</strong> (<em>float</em>) – Electron number density [cm^{-3}]. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen density [cm^{03}]. Default is [1e-5] * unyt.unyt_array(1, ‘cm**(-3)’). If collsional excitation is not enabled, any number input here will not go into the calculation.</p></li>
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature. Default is [1e4] * unyt.unyt_array(1, ‘K’).</p></li>
 <li><p><strong>n</strong> (<em>int</em>) – Principle quantum number of the desired level. Default is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
 <li><p><strong>l</strong> (<em>int</em>) – Angular momentum quantum number of the desired level. Default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
 <li><p><strong>verbose</strong> (<em>boolean</em>) – Output diagnostic information. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
@@ -525,15 +525,15 @@ Recombination_rate(n, l, T) = 10**Alpha_nk(10**LogT)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="hylightpy.HIAtom.get_emissivity">
-<span class="sig-name descname"><span class="pre">get_emissivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(100.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.e-05,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(100.,</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(10000.,</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nupper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlower</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.get_emissivity" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_emissivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ne</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHI</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([1.e-05],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nHII</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([100.],</span> <span class="pre">'cm**(-3)')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([10000.],</span> <span class="pre">'K')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nupper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlower</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hylightpy.HIAtom.get_emissivity" title="Link to this definition">¶</a></dt>
 <dd><p>Compute line emissivity for given density and temperature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ne</strong> (<em>float</em>) – Electron density. Default is 100 * unyt.cm^(-3).</p></li>
-<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen density. Default is 100 * unyt.cm^(-3).</p></li>
-<li><p><strong>nHII</strong> (<em>float</em>) – Proton density. Default is 100 * unyt.cm^(-3).</p></li>
-<li><p><strong>logT</strong> – Temperature in log10.</p></li>
+<li><p><strong>ne</strong> (<em>float</em>) – Electron density. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>nHI</strong> (<em>float</em>) – Neutral hydrogen density. Default is [1e-5] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>nHII</strong> (<em>float</em>) – Proton density. Default is [1e2] * unyt.unyt_array(1, ‘cm**(-3)’).</p></li>
+<li><p><strong>logT</strong> – Temperature. Default is [1e4] * unyt.unyt_array(1, ‘K’).</p></li>
 <li><p><strong>nupper</strong> (<em>int</em>) – Principle quantum number for the upper level. Default is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
 <li><p><strong>nlower</strong> (<em>int</em>) – Principle quantum number for the lower level. Default is <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p></li>
 </ul>
@@ -694,7 +694,7 @@ The energy difference is expressed in absolute values, see Lebedev &amp; Beigman
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=544df88d"></script>
+</div><script src="_static/documentation_options.js?v=c7cdf6fe"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

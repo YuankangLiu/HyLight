@@ -32,10 +32,10 @@ We use the function ``get_emissivity`` to calculate the line emissivity at a giv
 
 .. code-block::
 
-       HI.get_line_emissivity(ne=100. * unyt.cm**(-3), 
-                              nHI=1e-5 * unyt.cm**(-3), 
-                              nHII=100. * unyt.cm**(-3), 
-                              temp=1e4 * unyt.K, 
+       HI.get_line_emissivity(ne=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                              nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
+                              nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                              temp=unyt.array.unyt_array([1e4], 'K'), 
                               nupper=3, nlower=2)
 
 The above line calculates the H :math:`\alpha` line emissivity at a given gas density (electron density of 100 :math:`\rm{cm}^{-3}`, proton density of 100 :math:`\rm{cm}^{-3}` and neutral hydrogen density of :math:`10^{-5}\,\rm{cm}^{-3}`) and temperature (:math:`10^4\,\rm{K}`). 
@@ -47,10 +47,10 @@ The function ``compute_level_pop`` computes the level population density. The fo
 
 .. code-block::
 
-       HI.compute_level_pop(nHII=100. * unyt.cm**(-3), 
-                            ne=100. * unyt.cm**(-3), 
-                            nHI=1e-5 * unyt.cm**(-3), 
-                            temp=1e4 * unyt.K, 
+       HI.compute_level_pop(nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                            ne=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
+                            nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
+                            temp=unyt.array.unyt_array([1e4], 'cm**(-3)'), 
                             n=3, l=1)
 
 
