@@ -4,10 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hylightpy"
-version = "0.0.17"
+version = "0.0.18"
 authors = [
   { name="Yuankang Liu", email="yuankang.liu@gmail.com" },
-  { name="Tom Theuns", email="tom.theuns@gmail.com" }
+  { name="Tom Theuns", email="tom.theuns@gmail.com" },
 ]
 description = "Atomic model for hydrogen recombination lines."
 readme = "README.md"
