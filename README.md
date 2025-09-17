@@ -25,6 +25,9 @@ HI = hylightpy.HIAtom(nmax = 40, verbose=True, caseB=True,
 ```
 where the user specify the number of levels in the hydrogen atom, the Case, and whether to include radiative processes and collisional processes. The user also have the freedom to specify the cache folder path, which will be storing cascade matrix elements. 
 
+You can find an example on [Google Colab](https://colab.research.google.com/drive/1H6TPbzPtAu9vaII_YNPJStM4WmlDHWS-?usp=sharing).
+
+
 ### Line emissivity calculation
 
 We utilise `unyt` package to specify the gas density and temperature. 
