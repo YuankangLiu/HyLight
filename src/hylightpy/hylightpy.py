@@ -949,7 +949,7 @@ class HIAtom:
         :type nHI: float
         :param nHII: Proton density. Default is [1e2] * unyt.unyt_array(1, 'cm**(-3)'). 
         :type nHII: float
-        :param logT: Temperature. Default is [1e4] * unyt.unyt_array(1, 'K'). 
+        :param temp: Temperature. Default is [1e4] * unyt.unyt_array(1, 'K'). 
         :type: float
         :param nupper: Principle quantum number for the upper level. Default is ``3``.
         :type nupper: int
