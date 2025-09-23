@@ -19,14 +19,11 @@ import hylightpy
 ### Initialisation
 Then initialise the class using 
 ```
-HI = hylightpy.HIAtom(nmax = 40, verbose=True, caseB=True, 
+HI = hylightpy.HIAtom(nmax = 100, verbose=True, caseB=True, 
                       recom=True, coll=False, 
                       cache_path='./cache/')
 ```
 where the user specify the number of levels in the hydrogen atom, the Case, and whether to include radiative processes and collisional processes. The user also have the freedom to specify the cache folder path, which will be storing cascade matrix elements. 
-
-You can find an example on [Google Colab](https://colab.research.google.com/drive/1H6TPbzPtAu9vaII_YNPJStM4WmlDHWS-?usp=sharing).
-
 
 ### Line emissivity calculation
 
@@ -54,7 +51,7 @@ The function `compute_level_pop` computes the level popualtion density. The foll
 HI.compute_level_pop(nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
                      ne=unyt.array.unyt_array([1e2], 'cm**(-3)'), 
                      nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
-                     temp=unyt.array.unyt_array([1e4], 'cm**(-3)'), 
+                     temp=unyt.array.unyt_array([1e4], 'K'), 
                      n=3, l=1)
 ```
 
