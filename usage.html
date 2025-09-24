@@ -264,6 +264,12 @@
 </pre></div>
 </div>
 <p>For a typical nebular condition (electron density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span>, proton density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span> and neutral hydrogen density of <span class="math notranslate nohighlight">\(10^{-5}\,\rm{cm}^{-3}\)</span>) and temperature (<span class="math notranslate nohighlight">\(10^4\,\rm{K}\)</span>)):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ne</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
+<span class="n">nHI</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
+<span class="n">nHII</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
+<span class="n">temp</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e4</span><span class="p">],</span> <span class="s1">&#39;K&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>We use the function <code class="docutils literal notranslate"><span class="pre">get_emissivity</span></code> to calculate the H <span class="math notranslate nohighlight">\(\alpha\)</span> line emissivity (<span class="math notranslate nohighlight">\(n_{\rm upper}=3 \to n_{\rm lower}=2\)</span>)  at the above condition.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="n">HI</span><span class="o">.</span><span class="n">get_line_emissivity</span><span class="p">(</span><span class="n">ne</span><span class="o">=</span><span class="n">ne</span><span class="p">,</span>
                              <span class="n">nHI</span><span class="o">=</span><span class="n">nHI</span><span class="p">,</span>
@@ -289,10 +295,10 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Level population of 3p state is </span><span class="si">{0:1.2e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">levelpop</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
-<dl class="simple">
-<dt>Output::</dt><dd><p>Level population of 3p state is 1.64e-17 cm**(-3)</p>
-</dd>
-</dl>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Level</span> <span class="n">population</span> <span class="n">of</span> <span class="mi">3</span><span class="n">p</span> <span class="n">state</span> <span class="ow">is</span> <span class="mf">1.64e-17</span> <span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 

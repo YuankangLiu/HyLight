@@ -34,6 +34,7 @@ We utilise ``unyt`` package to specify the gas density and temperature.
 For a typical nebular condition (electron density of 100 :math:`\rm{cm}^{-3}`, proton density of 100 :math:`\rm{cm}^{-3}` and neutral hydrogen density of :math:`10^{-5}\,\rm{cm}^{-3}`) and temperature (:math:`10^4\,\rm{K}`)):
 
 .. code-block::
+   
        ne=unyt.array.unyt_array([1e2], 'cm**(-3)'),
        nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'),
        nHII=unyt.array.unyt_array([1e2], 'cm**(-3)'),
@@ -72,5 +73,6 @@ The function ``compute_level_pop`` computes the level population density. The fo
        print('Level population of 3p state is {0:1.2e}'.format(levelpop[0]))
 
 Output::
+  
        Level population of 3p state is 1.64e-17 cm**(-3)
  
