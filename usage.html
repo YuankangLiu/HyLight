@@ -250,11 +250,11 @@
 </pre></div>
 </div>
 <p>Then we can initialise the hydrogen class using</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span> <span class="o">=</span> <span class="n">hylightpy</span><span class="o">.</span><span class="n">HIAtom</span><span class="p">(</span><span class="n">nmax</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">caseB</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                      <span class="n">recom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">coll</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">&#39;./cache/&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span> <span class="o">=</span> <span class="n">hylightpy</span><span class="o">.</span><span class="n">HIAtom</span><span class="p">(</span><span class="n">nmax</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">caseB</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="n">recom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">coll</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisioanal excitation from the ground state.</p>
+<p>Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisional excitation from the ground state.</p>
 <p>We also set the cache folder to the current working directory. The cache folder will store the cascade matrices and Einstein coefficients.</p>
 </section>
 <section id="line-emissivity-calculation">
@@ -263,27 +263,36 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unyt</span>
 </pre></div>
 </div>
-<p>We use the function <code class="docutils literal notranslate"><span class="pre">get_emissivity</span></code> to calculate the line emissivity at a given density and temperature.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span><span class="o">.</span><span class="n">get_line_emissivity</span><span class="p">(</span><span class="n">ne</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                       <span class="n">nHI</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                       <span class="n">nHII</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                       <span class="n">temp</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e4</span><span class="p">],</span> <span class="s1">&#39;K&#39;</span><span class="p">),</span>
-                       <span class="n">nupper</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nlower</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<p>For a typical nebular condition (electron density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span>, proton density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span> and neutral hydrogen density of <span class="math notranslate nohighlight">\(10^{-5}\,\rm{cm}^{-3}\)</span>) and temperature (<span class="math notranslate nohighlight">\(10^4\,\rm{K}\)</span>)):</p>
+<p>We use the function <code class="docutils literal notranslate"><span class="pre">get_emissivity</span></code> to calculate the H <span class="math notranslate nohighlight">\(\alpha\)</span> line emissivity (<span class="math notranslate nohighlight">\(n_{\rm upper}=3 \to n_{\rm lower}=2\)</span>)  at the above condition.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="n">HI</span><span class="o">.</span><span class="n">get_line_emissivity</span><span class="p">(</span><span class="n">ne</span><span class="o">=</span><span class="n">ne</span><span class="p">,</span>
+                             <span class="n">nHI</span><span class="o">=</span><span class="n">nHI</span><span class="p">,</span>
+                             <span class="n">nHII</span><span class="o">=</span><span class="n">nHII</span><span class="p">,</span>
+                             <span class="n">temp</span><span class="o">=</span><span class="n">temp</span><span class="p">,</span>
+                             <span class="n">nupper</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">nlower</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Emissivity in the n=</span><span class="si">{0:1d}</span><span class="s2"> to n=</span><span class="si">{1:1d}</span><span class="s2"> line is </span><span class="si">{2:1.3e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nupper</span><span class="p">,</span> <span class="n">nlower</span><span class="p">,</span> <span class="n">eps</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
 </pre></div>
 </div>
-<p>The above line calculates the H <span class="math notranslate nohighlight">\(\alpha\)</span> line emissivity at a given gas density (electron density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span>, proton density of 100 <span class="math notranslate nohighlight">\(\rm{cm}^{-3}\)</span> and neutral hydrogen density of <span class="math notranslate nohighlight">\(10^{-5}\,\rm{cm}^{-3}\)</span>) and temperature (<span class="math notranslate nohighlight">\(10^4\,\rm{K}\)</span>).</p>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Emissivity</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span> <span class="n">to</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span> <span class="n">line</span> <span class="ow">is</span> <span class="mf">3.451e-21</span> <span class="n">erg</span><span class="o">/</span><span class="p">(</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 <section id="level-population">
 <h2>Level population<a class="headerlink" href="#level-population" title="Link to this heading">¶</a></h2>
-<p>The function <code class="docutils literal notranslate"><span class="pre">compute_level_pop</span></code> computes the level population density. The following line calculates the 3 <span class="math notranslate nohighlight">\(p\)</span> state population density at the same condition</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HI</span><span class="o">.</span><span class="n">compute_level_pop</span><span class="p">(</span><span class="n">nHII</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                     <span class="n">ne</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e2</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                     <span class="n">nHI</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                     <span class="n">temp</span><span class="o">=</span><span class="n">unyt</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">unyt_array</span><span class="p">([</span><span class="mf">1e4</span><span class="p">],</span> <span class="s1">&#39;cm**(-3)&#39;</span><span class="p">),</span>
-                     <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<p>The function <code class="docutils literal notranslate"><span class="pre">compute_level_pop</span></code> computes the level population density. The following line calculates the 3 <span class="math notranslate nohighlight">\(p\)</span> state (principle quantum number is 3, angular momentum quantum number is 1) population density at the same condition</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">levelpop</span> <span class="o">=</span> <span class="n">HI</span><span class="o">.</span><span class="n">compute_level_pop</span><span class="p">(</span><span class="n">nHII</span><span class="o">=</span><span class="n">nHII</span><span class="p">,</span>
+                                <span class="n">ne</span><span class="o">=</span><span class="n">ne</span><span class="p">,</span>
+                                <span class="n">nHI</span><span class="o">=</span><span class="n">nHI</span><span class="p">,</span>
+                                <span class="n">temp</span><span class="o">=</span><span class="n">temp</span><span class="p">,</span>
+                                <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Level population of 3p state is </span><span class="si">{0:1.2e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">levelpop</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
-<p>Now we can calculate the level population of the excited states. For examples, we are intersted in the 3s state.</p>
+<dl class="simple">
+<dt>Output::</dt><dd><p>Level population of 3p state is 1.64e-17 cm**(-3)</p>
+</dd>
+</dl>
 </section>
 </section>
 
