@@ -243,8 +243,11 @@
         <article role="main" id="furo-main-content">
           <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Examples can be found on <a class="reference external" href="https://colab.research.google.com/drive/1H6TPbzPtAu9vaII_YNPJStM4WmlDHWS-?usp=sharing">Google Colab</a> or on <a class="reference external" href="https://github.com/YuankangLiu/HyLight/tree/main/examples">GitHub</a>.</p>
 <section id="initialisation">
-<h2>Initialisation<a class="headerlink" href="#initialisation" title="Link to this heading">¶</a></h2>
+<h3>Initialisation<a class="headerlink" href="#initialisation" title="Link to this heading">¶</a></h3>
 <p>To import the package, type</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">hylightpy</span>
 </pre></div>
@@ -254,11 +257,11 @@
                       <span class="n">recom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">coll</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache_path</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisional excitation from the ground state.</p>
+<p>Here, we have initialised the class with 50 n-levels in Case B. We turn on the radiative recombination and the collisional excitation from the ground state.</p>
 <p>We also set the cache folder to the current working directory. The cache folder will store the cascade matrices and Einstein coefficients.</p>
 </section>
 <section id="line-emissivity-calculation">
-<h2>Line emissivity calculation<a class="headerlink" href="#line-emissivity-calculation" title="Link to this heading">¶</a></h2>
+<h3>Line emissivity calculation<a class="headerlink" href="#line-emissivity-calculation" title="Link to this heading">¶</a></h3>
 <p>We utilise <code class="docutils literal notranslate"><span class="pre">unyt</span></code> package to specify the gas density and temperature.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">unyt</span>
 </pre></div>
@@ -285,7 +288,7 @@
 </div>
 </section>
 <section id="level-population">
-<h2>Level population<a class="headerlink" href="#level-population" title="Link to this heading">¶</a></h2>
+<h3>Level population<a class="headerlink" href="#level-population" title="Link to this heading">¶</a></h3>
 <p>The function <code class="docutils literal notranslate"><span class="pre">compute_level_pop</span></code> computes the level population density. The following line calculates the 3 <span class="math notranslate nohighlight">\(p\)</span> state (principle quantum number is 3, angular momentum quantum number is 1) population density at the same condition</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">levelpop</span> <span class="o">=</span> <span class="n">HI</span><span class="o">.</span><span class="n">compute_level_pop</span><span class="p">(</span><span class="n">nHII</span><span class="o">=</span><span class="n">nHII</span><span class="p">,</span>
                                 <span class="n">ne</span><span class="o">=</span><span class="n">ne</span><span class="p">,</span>
@@ -299,6 +302,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Level</span> <span class="n">population</span> <span class="n">of</span> <span class="mi">3</span><span class="n">p</span> <span class="n">state</span> <span class="ow">is</span> <span class="mf">1.64e-17</span> <span class="n">cm</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -358,9 +362,12 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
 <li><a class="reference internal" href="#initialisation">Initialisation</a></li>
 <li><a class="reference internal" href="#line-emissivity-calculation">Line emissivity calculation</a></li>
 <li><a class="reference internal" href="#level-population">Level population</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

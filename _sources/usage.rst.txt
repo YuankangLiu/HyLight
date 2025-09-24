@@ -1,6 +1,12 @@
 Usage
 =====
 
+Examples
+++++++++
+
+Examples can be found on `Google Colab <https://colab.research.google.com/drive/1H6TPbzPtAu9vaII_YNPJStM4WmlDHWS-?usp=sharing>`_ or on `GitHub <https://github.com/YuankangLiu/HyLight/tree/main/examples>`_.
+
+
 Initialisation
 --------------
 
@@ -17,7 +23,7 @@ Then we can initialise the hydrogen class using
        HI = hylightpy.HIAtom(nmax = 50, verbose=False, caseB=True,
                              recom=True, coll=True, cache_path='./')
 
-Here, we have initialised the class with 40 n-levels in Case B. We turn on the radiative recombination but not the collisional excitation from the ground state.
+Here, we have initialised the class with 50 n-levels in Case B. We turn on the radiative recombination and the collisional excitation from the ground state.
 
 We also set the cache folder to the current working directory. The cache folder will store the cascade matrices and Einstein coefficients. 
 
