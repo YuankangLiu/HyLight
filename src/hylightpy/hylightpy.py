@@ -20,7 +20,7 @@ class HIAtom:
                  caseB = True, verbose=False):
         """Initialize the hydrogen  model. 
         
-        :param nmax: Number of levels included in the modeln. Default is ``40``.
+        :param nmax: Number of levels included in the modeln. Default is ``60``.
         :param recom: Whether to include radiative recombination. Default is ``True``.
         :param coll: Whether to include collisional excitation from the ground state. Default is ``True``.
         :param cache_path: Path to store the cache files. Default is the current working directory ``'./cache/'``.
@@ -256,7 +256,6 @@ class HIAtom:
         gnu = 2 * nu**2
         gnl = 2 * nl**2
         deltaE = self.Eion * (1 / nl**2 - 1 / nu**2)
-        #print(deltaE, Te)
         qul = gnu / gnl * np.exp(- deltaE / (unyt.boltzmann_constant_cgs * Te)) * self.collisional_deexcitation_rate_Lebedev_Beigman(nu=nu, nl=nl, Te=Te.value)
         return qul
 
@@ -283,9 +282,7 @@ class HIAtom:
         return qlu
         
     def get_theta(self, Te, Z):
-        #print('temp is', Te)
         theta = unyt.boltzmann_constant_cgs * Te / (Z**2 * self.Eion)
-        #print('theta is', theta)
         return theta
 
     def En_potential(self, n):
@@ -475,7 +472,7 @@ class HIAtom:
                 conf_k = Config(n=nd, l=ld)
                 rhs    += A[conf_i][conf_k]
 
-        N       = np.zeros_like(LogT)
+        N       = np.zeros_like(LogT) * unyt.unyt_array(1, 'cm**(-3)')
         mask    = rhs > 0
         N[mask] = lhs[mask]/rhs[mask]
         if verbose:
@@ -563,7 +560,7 @@ class HIAtom:
 
                 N[conf_i] = 0.0
                 if rhs>0:
-                    N[conf_i] = lhs/rhs
+                    N[conf_i] = lhs/rhs * unyt.unyt_array(1, 'cm**(-3)')
         return N
         
     def compute_cascade_matrix(self):
@@ -643,7 +640,7 @@ class HIAtom:
                                 conf_k = Config(n=nd, l=ld)
                                 P[conf_i][conf_k] = A[conf_i][conf_k] / denom
         if self.verbose:
-            print(" ... Cascade matrix: probability matrix computed (eq. 4.8) in time {0:1.2f}".format(time.time()-t0))
+            print(" ... Cascade matrix: probability matrix computed in time {0:1.2f}".format(time.time()-t0))
         self.P = P
         
         # Compute the transpose of P
@@ -989,7 +986,7 @@ class HIAtom:
             # get population level
             conf        = self.config(n=nupper, l=lup)
             emis[conf] = {}
-            emis[conf] = As[conf] * unyt.s**(-1) * self.Eion * (1./nlower**2 - 1./nupper**2) * population[:, lup] * unyt.cm**(-3)
+            emis[conf] = As[conf] * unyt.s**(-1) * self.Eion * (1./nlower**2 - 1./nupper**2) * population[:, lup]
             emis_tot += emis[conf]
             
         return emis_tot.in_units('erg * cm**(-3) * s**(-1)')
