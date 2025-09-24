@@ -5,11 +5,13 @@ Initialisation
 --------------
 
 To import the package, type
+
 .. code-block::
    
        import hylightpy
 
 Then we can initialise the hydrogen class using
+
 .. code-block::
    
        HI = hylightpy.HIAtom(nmax = 40, verbose=True, caseB=True,
