@@ -23,7 +23,7 @@ class TestHylightpy(unittest.TestCase):
                                                   nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
                                                   temp=unyt.array.unyt_array([1e4], 'K'), 
                                                   n=3, l=0)
-        self.assertLessEqual(np.abs(test_levelpop - 2.4209498e-17), 1e-6)
+        self.assertLessEqual(np.abs(test_levelpop.value - 2.4209498e-17), 1e-6)
 
     def test_level_population_nmax_50_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=50, recom=True, coll=False, 
@@ -33,7 +33,7 @@ class TestHylightpy(unittest.TestCase):
                                                   nHI=unyt.array.unyt_array([1e-5], 'cm**(-3)'), 
                                                   temp=unyt.array.unyt_array([1e4], 'K'), 
                                                   n=3, l=0)
-        self.assertLessEqual(np.abs(test_levelpop - 2.41359247e-17), 1e-6)
+        self.assertLessEqual(np.abs(test_levelpop.value - 2.41359247e-17), 1e-6)
 
     def test_get_emissivity_nmax_50_case_b(self):
         test_HI = hylightpy.HIAtom(nmax=50, recom=True, coll=False, 

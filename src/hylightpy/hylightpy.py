@@ -970,7 +970,7 @@ class HIAtom:
         except TypeError:
             pass
         
-        population = np.zeros((len(ne), nupper), dtype=float)
+        population = np.zeros((len(ne), nupper), dtype=float) * unyt.unyt_array(1, 'cm**(-3)')
         for l in np.arange(nupper):
             population[:, l] = self.compute_level_pop(nHII=nHII * unyt.array.unyt_array(1, 'cm**(-3)'), 
                                                    ne=ne * unyt.array.unyt_array(1, 'cm**(-3)'), 
