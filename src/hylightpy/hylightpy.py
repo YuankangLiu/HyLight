@@ -1004,10 +1004,31 @@ class HIAtom:
         :return: The fraction of recombination that results in the emission of a specific line. 
         :rtype: float
         '''
+        
+        fpath = importlib.resources.files('hylightpy.data').joinpath('h_iso_recomb_HI_150.dat')
+        
+        log_temps = np.linspace(0, 10, 41, endpoint=True)
+        temps = 10**(log_temps)
+        
+        temp_index = np.arange(41)
+        temp_index = [str(x) for x in temp_index]
+        
+        nmax = 150 # total levels in the file
+        lvl_tot = int(nmax * (nmax + 1) / 2) # total nl levels
+        
+        rows = np.arange(1, lvl_tot + 2) 
+        colnames = ['Z', 'levels'] + temp_index
+        
+        recom_data_150 = pandas.read_csv(fpath, delimiter='\t', names=colnames, skiprows=lambda x: x not in rows)
+
         if caseB == True:
-            alpha_tot = self.alpha_B(LogT=LogT)
+            recom_b_150 = np.sum(10**recom_data_150.iloc[1:-1, 2:43].values, axis=0)
+            alpha_tot_fit = interpolate.interp1d(log_temps, np.log10(recom_b_150), fill_value="extrapolate", bounds_error=False)
+            alpha_tot = 10**alpha_tot_fit(LogT)
         else:
-            alpha_tot = self.alpha_A(LogT=LogT)
+            recom_a_150 = np.sum(10**recom_data_150.iloc[:-1, 2:43].values, axis=0)
+            alpha_tot_fit = interpolate.interp1d(log_temps, np.log10(recom_a_150), fill_value="extrapolate", bounds_error=False)
+            alpha_tot = 10**alpha_tot_fit(LogT)
         
         lterms = np.zeros(nupper)
         
