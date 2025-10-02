@@ -1013,7 +1013,7 @@ class HIAtom:
         temp_index = np.arange(41)
         temp_index = [str(x) for x in temp_index]
         
-        nmax = 150 # total levels in the file
+        nmax = self.nmax # total levels
         lvl_tot = int(nmax * (nmax + 1) / 2) # total nl levels
         
         rows = np.arange(1, lvl_tot + 2) 
